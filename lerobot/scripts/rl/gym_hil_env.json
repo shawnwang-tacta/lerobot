@@ -38,7 +38,7 @@
         "control_mode": "gamepad"
     },
     "name": "franka_sim",
-    "mode": "record",
+    "mode": null,
     "repo_id": "test-hil-serl",
     "dataset_root": "/home/swang@tactasystems.com/data/250627_145500",
     "task": "PandaPickCubeGamepad-v0",
