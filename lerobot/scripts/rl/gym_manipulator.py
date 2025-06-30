@@ -1776,6 +1776,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             render_mode="human",
             use_gripper=cfg.wrapper.use_gripper,
             gripper_penalty=cfg.wrapper.gripper_penalty,
+            random_block_position=False
         )
         env = GymHilObservationProcessorWrapper(env=env)
         env = GymHilDeviceWrapper(env=env, device=cfg.device)
