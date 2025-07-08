@@ -41,7 +41,7 @@
     "mode": null,
     "repo_id": "test-hil-serl",
     "dataset_root": "/home/swang@tactasystems.com/data/250627_145500",
-    "task": "GridWorld-v0",
+    "task": "TactaManip-v0",
     "num_episodes": 30,
     "episode": 0,
     "pretrained_policy_name_or_path": "/home/swang@tactasystems.com/Code/lerobot/outputs/train/2025-06-25/13-46-47_default/checkpoints/0008000/pretrained_model/",

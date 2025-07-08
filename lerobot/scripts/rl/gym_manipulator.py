@@ -1768,6 +1768,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
     """
     if cfg.type == "hil":
         import gym_hil  # noqa: F401
+        import tacta.control.gym_env.flexiv_env.hand_manip_env
 
         # TODO (azouitine)
         env = gym.make(
