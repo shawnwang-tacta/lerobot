@@ -1768,17 +1768,22 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
     """
     if cfg.type == "hil":
         import gym_hil  # noqa: F401
-        import tacta.control.gym_env.flexiv_env.hand_manip_env
 
         # TODO (azouitine)
-        env = gym.make(
-            f"gym_hil/{cfg.task}",
-            image_obs=True,
-            render_mode="human",
-            use_gripper=cfg.wrapper.use_gripper,
-            gripper_penalty=cfg.wrapper.gripper_penalty,
-            random_block_position=False
-        )
+        if "TactaManip" in cfg.task:
+            import tacta.control.gym_env.flexiv_env.hand_manip_env
+            env = gym.make(
+                f"gym_hil/{cfg.task}",
+            )
+        else:
+            env = gym.make(
+                f"gym_hil/{cfg.task}",
+                image_obs=True,
+                render_mode="human",
+                use_gripper=cfg.wrapper.use_gripper,
+                gripper_penalty=cfg.wrapper.gripper_penalty,
+                random_block_position=False
+            )
         env = GymHilObservationProcessorWrapper(env=env)
         env = GymHilDeviceWrapper(env=env, device=cfg.device)
         env = BatchCompatibleWrapper(env=env)
