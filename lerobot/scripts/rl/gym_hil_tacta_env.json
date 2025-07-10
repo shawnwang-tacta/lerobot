@@ -24,7 +24,7 @@
             128
         ],
         "control_time_s": 15.0,
-        "use_gripper": true,
+        "use_gripper": false,
         "fixed_reset_joint_positions": [
             0.0,
             0.195,
@@ -38,13 +38,13 @@
         "control_mode": "gamepad"
     },
     "name": "franka_sim",
-    "mode": null,
-    "repo_id": "test-hil-serl",
-    "dataset_root": "/home/swang@tactasystems.com/data/250627_145500",
+    "mode": "record",
+    "repo_id": "wx405557858/tacta_manip_articulated_0",
+    "dataset_root": "/home/swang@tactasystems.com/data/250709_154358",
     "task": "TactaManip-v0",
-    "num_episodes": 30,
+    "num_episodes": 1,
     "episode": 0,
-    "pretrained_policy_name_or_path": "/home/swang@tactasystems.com/Code/lerobot/outputs/train/2025-06-25/13-46-47_default/checkpoints/0008000/pretrained_model/",
+    "pretrained_policy_name_or_path": null,
     "device": "cuda",
     "push_to_hub": true,
     "fps": 10,
@@ -68,7 +68,7 @@
         "observation.state": {
             "type": "STATE",
             "shape": [
-                18
+                3
             ]
         },
         "action": {
