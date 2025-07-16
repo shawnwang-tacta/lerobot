@@ -1,0 +1,17 @@
+# Use for MUjoco 5finger Sim (limit of manus glove)
+finger_joint_limits:
+  thumb_AB_AD: [0.0, 32.3]
+  thumb_MCP: [15.0, 48.0]
+  thumb_IP: [0.0, 55.0]
+  index_AB_AD: [-17.4, 16.3]  
+  index_MCP: [34.0, 97.3]
+  index_PIP: [0.0, 110.0]
+  middle_AB_AD: [-17.4, 16.3]  
+  middle_MCP: [34.0, 97.3]
+  middle_PIP: [0.0, 110.0]
+  ring_AB_AD: [-17.4, 16.3]  
+  ring_MCP: [34.0, 97.3]
+  ring_PIP: [0.0, 110.0]
+  pinky_AB_AD: [-17.4, 16.3]  
+  pinky_MCP: [34.0, 97.3]
+  pinky_PIP: [0.0, 110.0]
