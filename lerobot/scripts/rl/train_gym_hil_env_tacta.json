@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "wx405557858/tacta_manip_articulated_6",
+        "repo_id": "wx405557858/tacta_manip_articulated_12",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -47,7 +47,7 @@
             "observation.state": {
                 "type": "STATE",
                 "shape": [
-                    3
+                    40
                 ]
             }
         },
@@ -88,14 +88,28 @@
             },
             "observation.state": {
                 "min": [
-                    0.0,
-                    0.0,
-                    0.0
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0
                 ],
                 "max": [
-                    1.0,
-                    1.0,
-                    1.0
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0
                 ]
             }
         },
@@ -106,8 +120,8 @@
         "shared_encoder": true,
         "online_steps": 1000000,
         "online_env_seed": 10000,
-        "online_buffer_capacity": 100000,
-        "offline_buffer_capacity": 100000,
+        "online_buffer_capacity": 50000,
+        "offline_buffer_capacity": 50000,
         "online_step_before_learning": 100,
         "policy_update_freq": 1,
         "discount": 0.97,
@@ -196,7 +210,7 @@
     },
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "wx405557858/tacta_manip_articulated_6",
+    "repo_id": "wx405557858/tacta_manip_articulated_12",
     "dataset_root": null,
     "task": "TactaManip-v0",
     "num_episodes": 30,
@@ -225,7 +239,7 @@
         "observation.state": {
             "type": "STATE",
             "shape": [
-                3
+                40
             ]
         },
         "action": {
