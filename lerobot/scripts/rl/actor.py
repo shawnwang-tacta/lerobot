@@ -265,6 +265,7 @@ def act_with_policy(
     # Add counters for intervention rate calculation
     episode_intervention_steps = 0
     episode_total_steps = 0
+    success_rate = 0.0
 
     policy_timer = TimerManager("Policy inference", log=False)
 
@@ -286,6 +287,7 @@ def act_with_policy(
             action = online_env.action_space.sample()
 
         next_obs, reward, done, truncated, info = online_env.step(action)
+        print("next_obs:", next_obs)
 
         sum_reward_episode += float(reward)
         # Increment total steps counter for intervention rate
@@ -315,6 +317,9 @@ def act_with_policy(
         obs = next_obs
 
         if done or truncated:
+            # compute success rate based on the last reward
+            if reward >= 1.0:
+                success_rate = 1.0
             logging.info(f"[ACTOR] Global step {interaction_step}: Episode reward: {sum_reward_episode}")
 
             update_policy_parameters(policy=policy.actor, parameters_queue=parameters_queue, device=device)
@@ -342,6 +347,7 @@ def act_with_policy(
                         "Interaction step": interaction_step,
                         "Episode intervention": int(episode_intervention),
                         "Intervention rate": intervention_rate,
+                        "Success rate": success_rate,
                         **stats,
                     }
                 )
@@ -352,6 +358,7 @@ def act_with_policy(
             episode_intervention = False
             episode_intervention_steps = 0
             episode_total_steps = 0
+            success_rate = 0.0
             obs, info = online_env.reset()
 
         if cfg.env.fps is not None:

@@ -1772,11 +1772,12 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         # TODO (azouitine)
         if "TactaManip" in cfg.task:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
-            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig
+            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper
             env = gym.make(
                 f"gym_hil/{cfg.task}",
             )
             env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
+            env = ObservationMaskWrapper(env, mask_tactile=False, mask_image_keys=["front"])
         else:
             env = gym.make(
                 f"gym_hil/{cfg.task}",
