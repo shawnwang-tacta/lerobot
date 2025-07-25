@@ -172,10 +172,9 @@
     },
     "env": {
     "type": "hil",
-    "mask_tactile": true,
+    "mask_tactile": false,
     "mask_image_keys": [
-        "front",
-        "wrist"
+        "front"
     ],
     "wrapper": {
         "gripper_penalty": -0.02,
