@@ -48,7 +48,7 @@ import torch
 import torchvision.transforms.functional as F  # noqa: N812
 
 from lerobot.common.cameras import opencv  # noqa: F401
-from lerobot.common.envs.configs import EnvConfig
+from lerobot.common.envs.configs import EnvConfig, HILEnvConfig
 from lerobot.common.envs.utils import preprocess_observation
 from lerobot.common.model.kinematics import RobotKinematics
 from lerobot.common.robots import (  # noqa: F401
@@ -1777,7 +1777,8 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                 f"gym_hil/{cfg.task}",
             )
             env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
-            env = ObservationMaskWrapper(env, mask_tactile=False, mask_image_keys=["front"])
+            cfg_tacta: HILEnvConfig = cfg
+            env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys)
         else:
             env = gym.make(
                 f"gym_hil/{cfg.task}",
@@ -2156,7 +2157,7 @@ def main(cfg: EnvConfig):
 
     num_episode = 0
     successes = []
-    while num_episode < 10:
+    while num_episode < 100:
         start_loop_s = time.perf_counter()
         # Sample a new random action from the robot's action space.
         new_random_action = env.action_space.sample()
