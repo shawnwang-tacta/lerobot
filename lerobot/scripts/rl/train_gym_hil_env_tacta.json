@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "wx405557858/tacta_manip_articulated_14",
+        "repo_id": "wx405557858/tacta_manip_articulated_17",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -174,7 +174,6 @@
     "type": "hil",
     "mask_tactile": false,
     "mask_image_keys": [
-        "front"
     ],
     "wrapper": {
         "gripper_penalty": -0.02,
@@ -214,7 +213,7 @@
     },
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "wx405557858/tacta_manip_articulated_14",
+    "repo_id": "wx405557858/tacta_manip_articulated_17",
     "dataset_root": null,
     "task": "TactaManip-v0",
     "num_episodes": 30,
