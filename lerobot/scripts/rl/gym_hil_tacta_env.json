@@ -38,9 +38,9 @@
         "control_mode": "gamepad"
     },
     "name": "franka_sim",
-    "mode": "record",
-    "repo_id": "wx405557858/tacta_manip_articulated_17",
-    "dataset_root": "/home/swang@tactasystems.com/data/250730_100000",
+    "mode": null,
+    "repo_id": "wx405557858/tacta_manip_articulated_20",
+    "dataset_root": "/home/swang@tactasystems.com/data/250731_111000",
     "task": "TactaManip-v0",
     "num_episodes": 30,
     "episode": 0,
