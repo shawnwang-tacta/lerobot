@@ -258,6 +258,6 @@
         "observation.state": "observation.state",
         "action": "action"
     },
-    "reward_classifier_pretrained_path": null
+    "reward_classifier_pretrained_path": "/home/swang@tactasystems.com/Code/lerobot/outputs/train/2025-08-04/16-01-52_reward-classifier/checkpoints/050000/pretrained_model/"
 }
 }

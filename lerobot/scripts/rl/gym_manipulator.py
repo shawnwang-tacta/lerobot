@@ -541,6 +541,8 @@ class RewardWrapper(gym.Wrapper):
 
         self.reward_classifier = torch.compile(reward_classifier)
         self.reward_classifier.to(self.device)
+        self.success_history = []
+        self.continuous_success_steps = 10
 
     def step(self, action):
         """
@@ -570,10 +572,16 @@ class RewardWrapper(gym.Wrapper):
             )
         info["Reward classifier frequency"] = 1 / (time.perf_counter() - start_time)
 
-        reward = 0.0
-        if success == 1.0:
+        reward = -0.01
+        self.success_history.append(success.detach().cpu().item())
+        if np.sum(self.success_history[-self.continuous_success_steps:]) >= self.continuous_success_steps:
             terminated = True
             reward = 1.0
+        
+        if success == 1.0:
+            reward += 0.1
+        
+        print(f"Reward: {reward}")
 
         return observation, reward, terminated, truncated, info
 
@@ -588,6 +596,7 @@ class RewardWrapper(gym.Wrapper):
         Returns:
             The initial observation and info from the wrapped environment.
         """
+        self.success_history = []
         return self.env.reset(seed=seed, options=options)
 
 
@@ -1772,9 +1781,13 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         # TODO (azouitine)
         if "TactaManip" in cfg.task:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
+            from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig
             from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper
             env = gym.make(
                 f"gym_hil/{cfg.task}",
+                env_config=TactaManipEnvConfig(
+                    use_reward_classifier=(cfg.reward_classifier_pretrained_path is not None),
+                )
             )
             env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
             cfg_tacta: HILEnvConfig = cfg
@@ -1792,6 +1805,9 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         env = GymHilDeviceWrapper(env=env, device=cfg.device)
         env = BatchCompatibleWrapper(env=env)
         env = TorchActionWrapper(env=env, device=cfg.device)
+        reward_classifier = init_reward_classifier(cfg)
+        if reward_classifier is not None:
+            env = RewardWrapper(env=env, reward_classifier=reward_classifier, device=cfg.device)
         return env
 
     if not hasattr(cfg, "robot") or not hasattr(cfg, "teleop"):

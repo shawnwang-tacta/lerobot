@@ -42,7 +42,7 @@
     "repo_id": "wx405557858/tacta_manip_articulated_20",
     "dataset_root": "/home/swang@tactasystems.com/data/250731_111000",
     "task": "TactaManip-v0",
-    "num_episodes": 30,
+    "num_episodes": 3000,
     "episode": 0,
     "pretrained_policy_name_or_path": null,
     "device": "cuda",

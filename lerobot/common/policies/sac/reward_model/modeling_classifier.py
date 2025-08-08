@@ -227,7 +227,7 @@ class Classifier(PreTrainedPolicy):
         # Check for both OBS_IMAGE and OBS_IMAGES prefixes
         images = [batch[key] for key in self.config.input_features if key.startswith(OBS_IMAGE)]
         labels = batch[REWARD]
-
+        labels = labels.long().float()
         return images, labels
 
     def predict(self, xs: list) -> ClassifierOutput:
