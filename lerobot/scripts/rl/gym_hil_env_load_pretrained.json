@@ -24,7 +24,7 @@
             128
         ],
         "control_time_s": 15.0,
-        "use_gripper": true,
+        "use_gripper": false,
         "fixed_reset_joint_positions": [
             0.0,
             0.195,
@@ -38,13 +38,16 @@
         "control_mode": "gamepad"
     },
     "name": "franka_sim",
-    "mode": "record",
-    "repo_id": "test-hil-serl",
-    "dataset_root": "/home/swang@tactasystems.com/data/250625_175300",
-    "task": "PandaPickCubeGamepad-v0",
-    "num_episodes": 30,
+    "mode": "evaluate",
+    "repo_id": "wx405557858/tacta_manip_articulated_20",
+    "dataset_root": "/home/swang/data/250811_101400",
+    "number_of_steps_after_success": 0,
+    "task": "TactaManip-v0",
+    "num_episodes": 1000,
     "episode": 0,
-    "pretrained_policy_name_or_path": "/home/swang@tactasystems.com/Code/lerobot/outputs/train/2025-06-25/13-46-47_default/checkpoints/0008000/pretrained_model/",
+    "mask_image_keys": [
+    ],
+    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2025-07-31/13-58-45_default/checkpoints/0004000/pretrained_model",
     "device": "cuda",
     "push_to_hub": true,
     "fps": 10,
@@ -68,7 +71,7 @@
         "observation.state": {
             "type": "STATE",
             "shape": [
-                18
+                40
             ]
         },
         "action": {

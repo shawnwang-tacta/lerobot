@@ -2095,6 +2095,105 @@ def record_dataset(env, policy, cfg):
         dataset.push_to_hub()
 
 
+def evaluate(env, policy, cfg: HILEnvConfig):
+    """
+    Evaluate robot interactions using learned policy.
+
+    This function runs episodes in the environment and records the observations,
+    actions, and results for dataset creation.
+
+    Args:
+        env: The environment to record from.
+        policy: Optional policy to generate actions (if None, uses teleop).
+        cfg: Configuration object containing recording parameters like:
+            - repo_id: Repository ID for dataset storage
+            - dataset_root: Local root directory for dataset
+            - num_episodes: Number of episodes to record
+            - fps: Frames per second for recording
+            - push_to_hub: Whether to push dataset to Hugging Face Hub
+            - task: Name/description of the task being recorded
+            - number_of_steps_after_success: Number of additional steps to continue recording after
+                                  a success (reward=1) is detected. This helps collect
+                                  more positive examples for reward classifier training.
+    """
+    # Setup initial action (zero action if using teleop)
+    action = env.action_space.sample() * 0.0
+
+    evaluation_metrics = {
+        "success_list": [],
+        "episode_durations": [],
+        "mean_tau_fingers": [],
+    }
+
+    episode_index = 0
+    while episode_index < cfg.num_episodes:
+        obs, _ = env.reset()
+        start_episode_t = time.perf_counter()
+        log_say(f"Recording episode {episode_index}", play_sounds=True)
+
+        # Track success state collection
+        success_detected = False
+        success_steps_collected = 0
+
+        # Run episode steps
+        episode_length = 0
+        tau_fingers = []
+        while time.perf_counter() - start_episode_t < cfg.wrapper.control_time_s:
+            start_loop_t = time.perf_counter()
+            episode_length += 1
+
+            # Get action from policy if available
+            if cfg.pretrained_policy_name_or_path is not None:
+                action = policy.select_action(obs)
+
+            # Step environment
+            obs, reward, terminated, truncated, info = env.step(action)
+
+            # Check if episode needs to be rerecorded
+            if info.get("rerecord_episode", False):
+                break
+
+            tau_fingers.append(info.get("tau_fingers", 0.0))
+
+            # Check if we've just detected success
+            if reward >= 1.0 and not success_detected:
+                success_detected = True
+                logging.info("Success detected! Collecting additional success states.")
+
+            # Only mark as done if we're truly done (reached end or collected enough success states)
+            really_done = terminated or truncated
+            if success_detected:
+                success_steps_collected += 1
+                really_done = success_steps_collected >= cfg.number_of_steps_after_success
+
+            # Maintain consistent timing
+            if cfg.fps:
+                dt_s = time.perf_counter() - start_loop_t
+                busy_wait(1 / cfg.fps - dt_s)
+
+            # Check if we should end the episode
+            if (terminated or truncated) and not success_detected:
+                # Regular termination without success
+                break
+            elif success_detected and success_steps_collected >= cfg.number_of_steps_after_success:
+                # We've collected enough success states
+                logging.info(f"Collected {success_steps_collected} additional success states")
+                break
+
+        episode_index += 1
+        print(f"success_steps_collected: {success_steps_collected}")
+        evaluation_metrics["success_list"].append(success_detected)
+        evaluation_metrics["episode_durations"].append(episode_length * (1.0 / cfg.fps))
+        evaluation_metrics["mean_tau_fingers"].append(np.mean(tau_fingers) if tau_fingers else 0.0)
+
+        print(f"mean success (success / total): {np.mean(evaluation_metrics['success_list']):.2f} ({np.sum(evaluation_metrics['success_list'])} / {len(evaluation_metrics['success_list'])})")
+        print(f"mean (+/- std) episode duration: {np.mean(evaluation_metrics['episode_durations']):.2f} (+/- {np.std(evaluation_metrics['episode_durations']):.2f}) s")
+        print(f"mean (+/- std) tau fingers: {np.mean(evaluation_metrics['mean_tau_fingers']):.2f} (+/- {np.std(evaluation_metrics['mean_tau_fingers']):.2f})")
+        
+        print(f"{np.mean(evaluation_metrics['success_list']):.2f} ({np.sum(evaluation_metrics['success_list'])} / {len(evaluation_metrics['success_list'])})", end="\t")
+        print(f"{np.mean(evaluation_metrics['episode_durations']):.2f} (+/- {np.std(evaluation_metrics['episode_durations']):.2f}) s", end="\t")
+        print(f"{np.mean(evaluation_metrics['mean_tau_fingers']):.2f} (+/- {np.std(evaluation_metrics['mean_tau_fingers']):.2f})")
+
 def replay_episode(env, cfg):
     """
     Replay a recorded episode in the environment.
@@ -2154,6 +2253,23 @@ def main(cfg: EnvConfig):
             cfg=cfg,
         )
         exit()
+    
+
+    if cfg.mode == "evaluate":
+        policy = None
+        if cfg.pretrained_policy_name_or_path is not None:
+            from lerobot.common.policies.sac.modeling_sac import SACPolicy
+
+            policy = SACPolicy.from_pretrained(cfg.pretrained_policy_name_or_path)
+            policy.to(cfg.device)
+            policy.eval()
+
+        evaluate(
+            env,
+            policy=policy,
+            cfg=cfg,
+        )
+        exit()
 
     if cfg.mode == "replay":
         replay_episode(
@@ -2161,6 +2277,8 @@ def main(cfg: EnvConfig):
             cfg=cfg,
         )
         exit()
+    
+
 
     env.reset()
 

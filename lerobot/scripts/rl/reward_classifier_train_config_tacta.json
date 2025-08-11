@@ -1,6 +1,6 @@
 {
     "dataset": {
-        "repo_id": "wx405557858/tacta_manip_articulated_20",
+        "repo_id": "wx405557858/tacta_manip_articulated_20_extended",
         "root": null
     },
     "policy": {
@@ -15,7 +15,7 @@
         "device": "cuda",
         "use_amp": true,
         "input_features": {
-            "observation.images.side": {
+            "observation.images.wrist": {
                 "type": "VISUAL",
                 "shape": [
                     3,
@@ -35,7 +35,7 @@
     },
     "batch_size": 16,
     "num_workers": 4,
-    "steps": 10000,
+    "steps": 500000,
     "log_freq": 10,
     "eval_freq": 1000,
     "save_freq": 1000,
@@ -48,7 +48,7 @@
     "wandb": {
         "enable": true,
         "project": "reward-classifier",
-        "disable_artifact": false
+        "disable_artifact": true
     },
     "job_name": "reward-classifier"
 }

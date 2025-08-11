@@ -772,6 +772,9 @@ class LeRobotDataset(torch.utils.data.Dataset):
         # Convert torch to numpy if needed
         for name in frame:
             if isinstance(frame[name], torch.Tensor):
+                # check device
+                if frame[name].device != torch.device("cpu"):
+                    frame[name] = frame[name].cpu()
                 frame[name] = frame[name].numpy()
 
         validate_frame(frame, self.features)
