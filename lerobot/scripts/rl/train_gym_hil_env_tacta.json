@@ -11,7 +11,7 @@
     "save_freq": 2000,
     "wandb": {
         "enable": true,
-        "project": "articulated_sim_with_classifier",
+        "project": "franka_sim",
         "disable_artifact": true
     },
     "dataset": {
