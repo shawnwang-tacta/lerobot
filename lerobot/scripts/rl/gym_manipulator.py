@@ -1791,7 +1791,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             )
             env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
             cfg_tacta: HILEnvConfig = cfg
-            env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys)
+            env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
         else:
             env = gym.make(
                 f"gym_hil/{cfg.task}",

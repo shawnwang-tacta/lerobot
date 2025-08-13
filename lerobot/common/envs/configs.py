@@ -264,6 +264,7 @@ class HILEnvConfig(EnvConfig):
     number_of_steps_after_success: int = 0
     ################# args from tacta
     mask_tactile: bool = False
+    mask_shear: bool = True
     mask_image_keys: list[str] = field(default_factory=lambda: [])
     ############################
 
