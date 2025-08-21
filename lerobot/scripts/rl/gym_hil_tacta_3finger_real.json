@@ -37,6 +37,15 @@
         "reset_time_s": 2.0,
         "control_mode": "gamepad"
     },
+    "tacta_env_config": {
+        "hand_id": "hand3",
+        "hand_type_str": "tacta_three_finger",
+        "finger_names": ["thumb", "finger1", "finger2"],
+        "finger_positions_bounds": [
+            [0.0, 0.0, -10.0], 
+            [90.0, 60.0, 10.0]
+        ]
+    },
     "name": "franka_sim",
     "mode": null,
     "repo_id": "wx405557858/tacta_manip_articulated_22",

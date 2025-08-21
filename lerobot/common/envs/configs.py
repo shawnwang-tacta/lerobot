@@ -14,7 +14,7 @@
 
 import abc
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any, List, Optional
 
 import draccus
 
@@ -189,6 +189,12 @@ class EnvTransformConfig:
     gripper_penalty: float = 0.0
     gripper_penalty_in_reward: bool = False
 
+@dataclass
+class TactaEnvConfig:
+    hand_id: str = "hand1"
+    hand_type_str: str = "5finger"
+    finger_names: List[str] = field(default_factory=list)
+    finger_positions_bounds: List[List[float]] = [[0.0, -10.0, 0.0], [60.0, 10.0, 90.0]]
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
@@ -252,6 +258,7 @@ class HILEnvConfig(EnvConfig):
     robot_config: Optional[RobotConfig] = None
     teleop_config: Optional[TeleoperatorConfig] = None
     wrapper: Optional[EnvTransformConfig] = None
+    tacta_env_config: Optional[TactaEnvConfig] = None
     mode: str = None  # Either "record", "replay", None
     repo_id: Optional[str] = None
     dataset_root: Optional[str] = None

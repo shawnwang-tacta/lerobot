@@ -1781,12 +1781,16 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         # TODO (azouitine)
         if "TactaManip" in cfg.task:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
-            from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig
+            from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig, TactaHandType
             from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper
             env = gym.make(
                 f"gym_hil/{cfg.task}",
                 env_config=TactaManipEnvConfig(
                     use_reward_classifier=(cfg.reward_classifier_pretrained_path is not None),
+                    hand_id=cfg.tacta_env_config.hand_id,
+                    hand_type=TactaHandType.from_string(cfg.tacta_env_config.hand_type_str),
+                    finger_names=cfg.tacta_env_config.finger_names,
+                    finger_positions_bounds=np.array(cfg.tacta_env_config.finger_positions_bounds, dtype=np.float32),
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
