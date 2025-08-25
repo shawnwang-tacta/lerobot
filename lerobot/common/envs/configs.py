@@ -196,6 +196,7 @@ class TactaEnvConfig:
     finger_names: List[str] = field(default_factory=list)
     finger_positions_bounds: List[List[float]] = field(default_factory=lambda: [[0.0, -10.0, 0.0], [60.0, 10.0, 90.0]])
     order_pip_first: bool = False
+    wrist_view_camera_key: str = "tacta::panda::wrist_image"
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass

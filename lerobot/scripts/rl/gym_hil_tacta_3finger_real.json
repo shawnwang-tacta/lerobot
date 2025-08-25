@@ -45,7 +45,8 @@
             [0.0, 0.0, -10.0], 
             [90.0, 60.0, 10.0]
         ],
-        "order_pip_first": true
+        "order_pip_first": true,
+        "wrist_view_camera_key": "tacta::realsense::0::rgb_image"
     },
     "name": "franka_sim",
     "mode": null,

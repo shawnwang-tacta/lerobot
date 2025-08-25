@@ -1777,6 +1777,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
     """
     if cfg.type == "hil":
         import gym_hil  # noqa: F401
+        cfg: HILEnvConfig = cfg  # type: ignore
 
         # TODO (azouitine)
         if "TactaManip" in cfg.task:
@@ -1791,6 +1792,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     hand_type=TactaHandType.from_string(cfg.tacta_env_config.hand_type_str),
                     finger_names=cfg.tacta_env_config.finger_names,
                     finger_positions_bounds=np.array(cfg.tacta_env_config.finger_positions_bounds, dtype=np.float32),
+                    wrist_view_camera_key=cfg.tacta_env_config.wrist_view_camera_key
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(
