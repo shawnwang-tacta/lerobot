@@ -44,7 +44,8 @@
         "finger_positions_bounds": [
             [0.0, 0.0, -10.0], 
             [90.0, 60.0, 10.0]
-        ]
+        ],
+        "order_pip_first": true
     },
     "name": "franka_sim",
     "mode": null,

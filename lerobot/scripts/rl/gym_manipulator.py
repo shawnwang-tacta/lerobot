@@ -1793,7 +1793,12 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     finger_positions_bounds=np.array(cfg.tacta_env_config.finger_positions_bounds, dtype=np.float32),
                 )
             )
-            env = ManusWrapper(env, ManusControllerConfig(manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml"))
+            env = ManusWrapper(env, ManusControllerConfig(
+                    manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml",
+                    hand_type=cfg.tacta_env_config.hand_type_str,
+                    order_pip_first=cfg.tacta_env_config.order_pip_first,
+                )
+            )
             cfg_tacta: HILEnvConfig = cfg
             env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
         else:
