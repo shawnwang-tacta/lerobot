@@ -192,7 +192,7 @@ class EnvTransformConfig:
 @dataclass
 class TactaEnvConfig:
     hand_id: str = "hand1"
-    hand_type_str: str = "5finger"
+    hand_type_str: str = "tacta_five_finger"
     finger_names: List[str] = field(default_factory=list)
     finger_positions_bounds: List[List[float]] = field(default_factory=lambda: [[0.0, -10.0, 0.0], [60.0, 10.0, 90.0]])
     order_pip_first: bool = False
@@ -260,7 +260,7 @@ class HILEnvConfig(EnvConfig):
     robot_config: Optional[RobotConfig] = None
     teleop_config: Optional[TeleoperatorConfig] = None
     wrapper: Optional[EnvTransformConfig] = None
-    tacta_env_config: Optional[TactaEnvConfig] = None
+    tacta_env_config: TactaEnvConfig = TactaEnvConfig()
     mode: str = None  # Either "record", "replay", None
     repo_id: Optional[str] = None
     dataset_root: Optional[str] = None
