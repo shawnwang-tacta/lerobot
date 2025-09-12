@@ -1783,7 +1783,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         if "TactaManip" in cfg.task:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
             from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig, TactaHandType
-            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper
+            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper
             env = gym.make(
                 f"gym_hil/{cfg.task}",
                 env_config=TactaManipEnvConfig(
@@ -1794,7 +1794,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     finger_positions_bounds=np.array(cfg.tacta_env_config.finger_positions_bounds, dtype=np.float32),
                     wrist_view_camera_key=cfg.tacta_env_config.wrist_view_camera_key,
                     record_mocap=cfg.tacta_env_config.record_mocap,
-                    control_finger_ids=cfg.tacta_env_config.control_finger_ids
+                    control_finger_ids=cfg.tacta_env_config.control_finger_ids,
                     step_sleep_ratio=cfg.tacta_env_config.step_sleep_ratio,
                 )
             )
@@ -1804,6 +1804,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     order_pip_first=cfg.tacta_env_config.order_pip_first,
                 )
             )
+            env = KeyboardLabelWrapper(env)
             cfg_tacta: HILEnvConfig = cfg
             env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
         else:
