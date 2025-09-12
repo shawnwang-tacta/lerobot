@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from typing import Any, List, Optional
 
 import draccus
+import numpy as np
 
 from lerobot.common.constants import ACTION, OBS_ENV_STATE, OBS_IMAGE, OBS_IMAGES, OBS_STATE
 from lerobot.common.robots import RobotConfig
@@ -197,6 +198,9 @@ class TactaEnvConfig:
     finger_positions_bounds: List[List[float]] = field(default_factory=lambda: [[0.0, -10.0, 0.0], [60.0, 10.0, 90.0]])
     order_pip_first: bool = False
     wrist_view_camera_key: str = "tacta::panda::wrist_image"
+    record_mocap: bool = False
+    control_finger_ids: List[int] = field(default_factory=lambda: [3, 4, 5])
+    step_sleep_ratio: float = 0.0
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass

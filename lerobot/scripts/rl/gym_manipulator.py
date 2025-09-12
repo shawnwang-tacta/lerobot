@@ -1792,7 +1792,10 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     hand_type=TactaHandType.from_string(cfg.tacta_env_config.hand_type_str),
                     finger_names=cfg.tacta_env_config.finger_names,
                     finger_positions_bounds=np.array(cfg.tacta_env_config.finger_positions_bounds, dtype=np.float32),
-                    wrist_view_camera_key=cfg.tacta_env_config.wrist_view_camera_key
+                    wrist_view_camera_key=cfg.tacta_env_config.wrist_view_camera_key,
+                    record_mocap=cfg.tacta_env_config.record_mocap,
+                    control_finger_ids=cfg.tacta_env_config.control_finger_ids
+                    step_sleep_ratio=cfg.tacta_env_config.step_sleep_ratio,
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(
