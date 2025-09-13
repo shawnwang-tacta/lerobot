@@ -201,6 +201,7 @@ class TactaEnvConfig:
     record_mocap: bool = False
     control_finger_ids: List[int] = field(default_factory=lambda: [3, 4, 5])
     step_sleep_ratio: float = 0.0
+    use_keyboard_label: bool = False
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
