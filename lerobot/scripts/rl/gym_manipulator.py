@@ -1796,6 +1796,8 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     record_mocap=cfg.tacta_env_config.record_mocap,
                     control_finger_ids=cfg.tacta_env_config.control_finger_ids,
                     step_sleep_ratio=cfg.tacta_env_config.step_sleep_ratio,
+                    tactile_min=cfg.tacta_env_config.tactile_min,
+                    tactile_max=cfg.tacta_env_config.tactile_max,
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(

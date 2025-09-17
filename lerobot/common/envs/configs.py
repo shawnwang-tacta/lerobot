@@ -202,6 +202,8 @@ class TactaEnvConfig:
     control_finger_ids: List[int] = field(default_factory=lambda: [3, 4, 5])
     step_sleep_ratio: float = 0.0
     use_keyboard_label: bool = False
+    tactile_min: float = -5.0
+    tactile_max: float = 5.0
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
