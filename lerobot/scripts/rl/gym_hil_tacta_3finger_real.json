@@ -42,8 +42,8 @@
         "hand_type_str": "tacta_three_finger",
         "finger_names": ["thumb", "finger1", "finger2"],
         "finger_positions_bounds": [
-            [0.0, 0.0, -10.0], 
-            [90.0, 60.0, 10.0]
+            [0.0, 0.0, 0.0], 
+            [90.0, 60.0, 0.001]
         ],
         "order_pip_first": true,
         "wrist_view_camera_key": "tacta::realsense::0::rgb_image",
@@ -56,7 +56,7 @@
     },
     "name": "franka_sim",
     "mode": "record",
-    "repo_id": "wx405557858/tacta_manip_articulated_real_1",
+    "repo_id": "wx405557858/tacta_manip_articulated_real_2",
     "dataset_root": null,
     "task": "TactaManip-v0",
     "num_episodes": 60,
