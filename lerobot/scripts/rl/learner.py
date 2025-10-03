@@ -974,6 +974,7 @@ def initialize_replay_buffer(
     dataset = LeRobotDataset(
         repo_id=repo_id,
         root=dataset_path,
+        tolerance_s=cfg.dataset.tolerance_s
     )
     return ReplayBuffer.from_lerobot_dataset(
         lerobot_dataset=dataset,
@@ -1009,6 +1010,7 @@ def initialize_offline_replay_buffer(
         offline_dataset = LeRobotDataset(
             repo_id=cfg.dataset.repo_id,
             root=dataset_offline_path,
+            tolerance_s=cfg.dataset.tolerance_s
         )
 
     logging.info("Convert to a offline replay buffer")
