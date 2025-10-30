@@ -204,6 +204,8 @@ class TactaEnvConfig:
     use_keyboard_label: bool = False
     tactile_min: float = -5.0
     tactile_max: float = 5.0
+    use_tacta_sensor: bool = True
+    tasks: List[str] = field(default_factory=lambda: ["open airpod case", "close airpod case"])
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
