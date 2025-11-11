@@ -205,6 +205,7 @@ class TactaEnvConfig:
     tactile_min: float = -5.0
     tactile_max: float = 5.0
     use_tacta_sensor: bool = True
+    tacta_sensor_calibration_file: str = "calibration/2025-10-02__09-23-47__L1P0037_cal.csv"
     tasks: List[str] = field(default_factory=lambda: ["open airpod case", "close airpod case"])
 
 @EnvConfig.register_subclass(name="gym_manipulator")

@@ -1784,6 +1784,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
             from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig, TactaHandType
             from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper
+            from tacta.perception.tacta_sensor.tacta_sensor_processor import TactaSensorProcessorConfig
             env = gym.make(
                 f"gym_hil/{cfg.task}",
                 env_config=TactaManipEnvConfig(
@@ -1796,10 +1797,13 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     record_mocap=cfg.tacta_env_config.record_mocap,
                     control_finger_ids=cfg.tacta_env_config.control_finger_ids,
                     step_sleep_ratio=cfg.tacta_env_config.step_sleep_ratio,
-                    tactile_min=cfg.tacta_env_config.tactile_min,
-                    tactile_max=cfg.tacta_env_config.tactile_max,
                     use_tacta_sensor=cfg.tacta_env_config.use_tacta_sensor,
                     tasks=cfg.tacta_env_config.tasks,
+                    tactile_sensor_processor_config=TactaSensorProcessorConfig(
+                        calibration_file=cfg.tacta_env_config.tacta_sensor_calibration_file,
+                        tactile_6d_min=cfg.tacta_env_config.tactile_min,
+                        tactile_6d_max=cfg.tacta_env_config.tactile_max,
+                    ),
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(
