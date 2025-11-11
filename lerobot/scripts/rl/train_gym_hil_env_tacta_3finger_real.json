@@ -8,7 +8,7 @@
     "steps": 100000,
     "log_freq": 1,
     "save_checkpoint": true,
-    "save_freq": 2000,
+    "save_freq": 1000,
     "wandb": {
         "enable": true,
         "project": "franka_sim",

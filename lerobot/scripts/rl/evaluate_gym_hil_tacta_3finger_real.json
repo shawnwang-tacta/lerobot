@@ -64,7 +64,7 @@
     "num_episodes": 60,
     "number_of_steps_after_success": 10,
     "episode": 0,
-    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2025-10-30/14-39-51_default/checkpoints/0002000/pretrained_model/",
+    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2025-11-10/15-59-33_default/checkpoints/0004000/pretrained_model/",
     "mask_shear": false,
     "device": "cuda",
     "push_to_hub": true,
