@@ -1799,6 +1799,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     step_sleep_ratio=cfg.tacta_env_config.step_sleep_ratio,
                     use_tacta_sensor=cfg.tacta_env_config.use_tacta_sensor,
                     tasks=cfg.tacta_env_config.tasks,
+                    mask_action_as_zero=cfg.tacta_env_config.mask_action_as_zero,
                     tacta_sensor_processor_config=TactaSensorProcessorConfig(
                         calibration_file=cfg.tacta_env_config.tacta_sensor_calibration_file,
                         tactile_6d_min=cfg.tacta_env_config.tactile_min,

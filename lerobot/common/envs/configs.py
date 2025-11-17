@@ -207,6 +207,7 @@ class TactaEnvConfig:
     use_tacta_sensor: bool = True
     tacta_sensor_calibration_file: str = "calibration/2025-10-02__09-23-47__L1P0037_cal.csv"
     tasks: List[str] = field(default_factory=lambda: ["open airpod case", "close airpod case"])
+    mask_action_as_zero: List[int] = field(default_factory=lambda: [2])
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
