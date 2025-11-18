@@ -1780,14 +1780,20 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
         cfg: HILEnvConfig = cfg  # type: ignore
 
         # TODO (azouitine)
-        if "TactaManip" in cfg.task:
+        if "TactaManip" in cfg.task or "TactaArmHandManip" in cfg.task:
             import tacta.control.gym_env.flexiv_env.hand_manip_env
+            import tacta.control.gym_env.flexiv_env.arm_hand_manip_env
             from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig, TactaHandType
-            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper
+            from tacta.control.gym_env.flexiv_env.arm_hand_manip_env import TactaArmHandManipEnvConfig
+            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper, SpaceMouseWrapper
             from tacta.perception.tacta_sensor.tacta_sensor_processor import TactaSensorProcessorConfig
+            if "TactaArmHandManip" in cfg.task:
+                cfg_cls = TactaArmHandManipEnvConfig
+            else:
+                cfg_cls = TactaManipEnvConfig
             env = gym.make(
                 f"gym_hil/{cfg.task}",
-                env_config=TactaManipEnvConfig(
+                env_config=cfg_cls(
                     use_reward_classifier=(cfg.reward_classifier_pretrained_path is not None),
                     hand_id=cfg.tacta_env_config.hand_id,
                     hand_type=TactaHandType.from_string(cfg.tacta_env_config.hand_type_str),
@@ -1813,6 +1819,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     order_pip_first=cfg.tacta_env_config.order_pip_first,
                 )
             )
+            env = SpaceMouseWrapper(env)
             if cfg.tacta_env_config.use_keyboard_label:
                 env = KeyboardLabelWrapper(env)
             cfg_tacta: HILEnvConfig = cfg
