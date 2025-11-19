@@ -1996,6 +1996,9 @@ def record_dataset(env, policy, cfg):
     action_names = ["delta_x_ee", "delta_y_ee", "delta_z_ee"]
     if cfg.wrapper.use_gripper:
         action_names.append("gripper_delta")
+    
+    if "TactaArmHandManip" in cfg.task:
+        action_names = ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z"] + action_names
 
     # Configure dataset features based on environment spaces
     features = {
@@ -2097,6 +2100,7 @@ def record_dataset(env, policy, cfg):
             frame["complementary_info.discrete_penalty"] = torch.tensor(
                 [info.get("discrete_penalty", 0.0)], dtype=torch.float32
             )
+            print(f"frame {frame}")
             dataset.add_frame(frame, task=cfg.task)
 
             # Maintain consistent timing
