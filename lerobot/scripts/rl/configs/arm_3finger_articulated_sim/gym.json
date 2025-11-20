@@ -91,7 +91,7 @@
         "observation.state": {
             "type": "STATE",
             "shape": [
-                40
+                110
             ]
         },
         "action": {
