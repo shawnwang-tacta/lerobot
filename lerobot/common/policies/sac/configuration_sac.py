@@ -135,6 +135,8 @@ class SACConfig(PreTrainedConfig):
     num_discrete_actions: int | None = None
     # Dimension of the image embedding pooling
     image_embedding_pooling_dim: int = 8
+    # Coefficient for action norm penalty to enforce constraints
+    action_norm_penalty_coeff: float = -0.1
 
     # Training parameter
     # Number of steps for online training

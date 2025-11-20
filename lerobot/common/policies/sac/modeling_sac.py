@@ -166,6 +166,15 @@ class SACPolicy(
             done: Tensor = batch["done"]
             next_observation_features: Tensor = batch.get("next_observation_feature")
 
+            def compute_constraint_penalty(observations: dict[str, Tensor], actions: Tensor) -> Tensor:
+                # action norm, shape: (batch_size, action_dim)
+                action_norm_l2 = torch.norm(actions, p=2, dim=-1)
+                constraint_penalty = action_norm_l2 * self.config.action_norm_penalty_coeff
+                return constraint_penalty
+
+            constraint_penalty = compute_constraint_penalty(observations, actions)
+            rewards = rewards + constraint_penalty
+
             loss_critic = self.compute_loss_critic(
                 observations=observations,
                 actions=actions,
