@@ -29,11 +29,19 @@ from torch.distributions import MultivariateNormal, TanhTransform, Transform, Tr
 
 from lerobot.common.policies.normalize import NormalizeBuffer
 from lerobot.common.policies.pretrained import PreTrainedPolicy
-from lerobot.common.policies.sac.configuration_sac import SACConfig, is_image_feature
+from lerobot.common.policies.sac.configuration_sac import ConstraintPenaltyConfig, SACConfig, is_image_feature
 from lerobot.common.policies.utils import get_device_from_parameters
+
+from dataclasses import dataclass
 
 DISCRETE_DIMENSION_INDEX = -1  # Gripper is always the last dimension
 
+
+def compute_constraint_penalty(actions: Tensor, config: ConstraintPenaltyConfig) -> Tensor:
+    # action norm, shape: (batch_size, action_dim)
+    action_norm_l2 = torch.norm(actions, p=2, dim=-1)
+    constraint_penalty = action_norm_l2 * config.action_norm_penalty_coeff
+    return constraint_penalty
 
 class SACPolicy(
     PreTrainedPolicy,
@@ -166,13 +174,7 @@ class SACPolicy(
             done: Tensor = batch["done"]
             next_observation_features: Tensor = batch.get("next_observation_feature")
 
-            def compute_constraint_penalty(observations: dict[str, Tensor], actions: Tensor) -> Tensor:
-                # action norm, shape: (batch_size, action_dim)
-                action_norm_l2 = torch.norm(actions, p=2, dim=-1)
-                constraint_penalty = action_norm_l2 * self.config.action_norm_penalty_coeff
-                return constraint_penalty
-
-            constraint_penalty = compute_constraint_penalty(observations, actions)
+            constraint_penalty = compute_constraint_penalty(actions, self.config.constraint_penalty_config)
             rewards = rewards + constraint_penalty
 
             loss_critic = self.compute_loss_critic(

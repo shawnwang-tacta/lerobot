@@ -59,7 +59,8 @@ from torch.multiprocessing import Event, Queue
 
 from lerobot.common.cameras import opencv  # noqa: F401
 from lerobot.common.policies.factory import make_policy
-from lerobot.common.policies.sac.modeling_sac import SACPolicy
+from lerobot.common.policies.sac.configuration_sac import SACConfig
+from lerobot.common.policies.sac.modeling_sac import SACPolicy, compute_constraint_penalty
 from lerobot.common.robots import so100_follower  # noqa: F401
 from lerobot.common.teleoperators import gamepad, so101_leader  # noqa: F401
 from lerobot.common.transport import services_pb2, services_pb2_grpc
@@ -287,6 +288,12 @@ def act_with_policy(
             action = online_env.action_space.sample()
 
         next_obs, reward, done, truncated, info = online_env.step(action)
+
+        if isinstance(cfg.policy, SACConfig):
+            action_tensor = torch.Tensor(action).unsqueeze(0)
+            constraint_penalty_tensor = compute_constraint_penalty(action_tensor, cfg.policy.constraint_penalty_config)
+            constraint_penalty = constraint_penalty_tensor.squeeze(0).item()
+            reward += constraint_penalty
 
         sum_reward_episode += float(reward)
         # Increment total steps counter for intervention rate

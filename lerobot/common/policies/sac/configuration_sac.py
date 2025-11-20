@@ -76,6 +76,10 @@ class PolicyConfig:
     init_final: float = 0.05
 
 
+@dataclass
+class ConstraintPenaltyConfig:
+    action_norm_penalty_coeff : float = -0.01
+
 @PreTrainedConfig.register_subclass("sac")
 @dataclass
 class SACConfig(PreTrainedConfig):
@@ -136,7 +140,7 @@ class SACConfig(PreTrainedConfig):
     # Dimension of the image embedding pooling
     image_embedding_pooling_dim: int = 8
     # Coefficient for action norm penalty to enforce constraints
-    action_norm_penalty_coeff: float = -0.1
+    constraint_penalty_config: ConstraintPenaltyConfig = field(default_factory=ConstraintPenaltyConfig)
 
     # Training parameter
     # Number of steps for online training
