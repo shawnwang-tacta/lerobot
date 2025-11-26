@@ -1812,6 +1812,10 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                         tactile_6d_max=cfg.tacta_env_config.tactile_max,
                     ),
                     reset_hand_on_start=cfg.tacta_env_config.reset_hand_on_start,
+                    # For arm environments:
+                    robot_name=cfg.tacta_env_config.robot_name,
+                    use_pubsub=cfg.tacta_env_config.use_pubsub,
+                    safety_bounds=cfg.tacta_env_config.safety_bounds
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(

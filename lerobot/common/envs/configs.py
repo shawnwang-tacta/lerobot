@@ -209,6 +209,9 @@ class TactaEnvConfig:
     tasks: List[str] = field(default_factory=lambda: ["open airpod case", "close airpod case"])
     mask_action_as_zero: List[int] = field(default_factory=lambda: [2])
     reset_hand_on_start: bool = True
+    robot_name: str = "panda"
+    use_pubsub: bool = True
+    safety_bounds: List[List[float]] = field(default_factory=lambda: [[0.3, -0.1, 0.15], [0.4, 0.1, 0.2]])
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
