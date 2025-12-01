@@ -1815,7 +1815,8 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     # For arm environments:
                     robot_name=cfg.tacta_env_config.robot_name,
                     use_pubsub=cfg.tacta_env_config.use_pubsub,
-                    safety_bounds=cfg.tacta_env_config.safety_bounds
+                    safety_bounds=cfg.tacta_env_config.safety_bounds,
+                    init_arm_pose=cfg.tacta_env_config.init_arm_pose,
                 )
             )
             env = ManusWrapper(env, ManusControllerConfig(

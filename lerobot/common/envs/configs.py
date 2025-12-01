@@ -212,6 +212,9 @@ class TactaEnvConfig:
     robot_name: str = "panda"
     use_pubsub: bool = True
     safety_bounds: List[List[float]] = field(default_factory=lambda: [[0.3, -0.1, 0.15], [0.4, 0.1, 0.2]])
+    init_arm_pose: List[float] = field(
+        default_factory=lambda: [0.30017018, -0.0517053, 0.20003024, 0.0442446, 0.85820109, 0.04218654, 0.50966024]
+    )
 
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
