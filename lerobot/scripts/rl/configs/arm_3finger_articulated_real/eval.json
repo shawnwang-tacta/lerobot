@@ -1,0 +1,113 @@
+{
+    "type": "hil",
+    "wrapper": {
+        "gripper_penalty": -0.02,
+        "display_cameras": false,
+        "add_joint_velocity_to_observation": true,
+        "add_ee_pose_to_observation": true,
+        "crop_params_dict": {
+            "observation.images.front": [
+                0,
+                0,
+                128,
+                128
+            ],
+            "observation.images.wrist": [
+                0,
+                0,
+                128,
+                128
+            ]
+        },
+        "resize_size": [
+            128,
+            128
+        ],
+        "control_time_s": 15.0,
+        "use_gripper": false,
+        "fixed_reset_joint_positions": [
+            0.0,
+            0.195,
+            0.0,
+            -2.43,
+            0.0,
+            2.62,
+            0.785
+        ],
+        "reset_time_s": 2.0,
+        "control_mode": "gamepad"
+    },
+    "tacta_env_config": {
+        "hand_id": "hand3",
+        "hand_type_str": "tacta_three_finger",
+        "finger_names": ["thumb", "finger1", "finger2"],
+        "finger_positions_bounds": [
+            [0.0, 0.0, -10.0], 
+            [90.0, 60.0, 10.0]
+        ],
+        "order_pip_first": true,
+        "wrist_view_camera_key": "tacta::realsense::0::rgb_image",
+        "record_mocap": false,
+        "control_finger_ids": [3, 4, 5],
+        "step_sleep_ratio": 0.9,
+        "use_keyboard_label": true,
+        "tactile_min": 0.0,
+        "tactile_max": 1.0,
+        "use_tacta_sensor": true,
+        "tasks": ["open airpod case"],
+        "robot_name": "flexiv",
+        "use_pubsub": false,
+        "safety_bounds" : [[0.37, -0.3, 0.25], [0.41, -0.25, 0.3]],
+        "init_arm_pose": [0.372, -0.293, 0.290, -0.433, 0.901, -0.009, -0.002]
+    },
+    "name": "franka_sim",
+    "mode": "evaluate",
+    "repo_id": "wx405557858/tacta_manip_articulated_real_tacta_1",
+    "dataset_root": null,
+    "task": "TactaArmHandManip-v0",
+    "num_episodes": 60,
+    "number_of_steps_after_success": 10,
+    "episode": 0,
+    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2025-12-01/15-47-58_default/checkpoints/0002000/pretrained_model",
+    "mask_shear": false,
+    "device": "cpu",
+    "push_to_hub": true,
+    "fps": 10,
+    "features": {
+        "observation.images.front": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.images.wrist": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.state": {
+            "type": "STATE",
+            "shape": [
+                110
+            ]
+        },
+        "action": {
+            "type": "ACTION",
+            "shape": [
+                3
+            ]
+        }
+    },
+    "features_map": {
+        "observation.images.front": "observation.images.front",
+        "observation.images.wrist": "observation.images.wrist",
+        "observation.state": "observation.state",
+        "action": "action"
+    },
+    "reward_classifier_pretrained_path": null
+}
