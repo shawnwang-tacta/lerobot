@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "wx405557858/arm_articulated_4",
+        "repo_id": "wx405557858/arm_articulated_real_0",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -257,7 +257,7 @@
     },
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "wx405557858/arm_articulated_4",
+    "repo_id": "wx405557858/arm_articulated_real_0",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
