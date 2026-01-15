@@ -207,6 +207,9 @@ class TactaEnvConfig:
     use_tacta_sensor: bool = True
     tacta_sensor_calibration_file: str = "calibration/2025-10-02__09-23-47__L1P0037_cal.csv"
     tasks: List[str] = field(default_factory=lambda: ["open airpod case", "close airpod case"])
+    tasks_disable_hand: List[str] = field(default_factory=lambda: ["reach the airpods case"])
+    tasks_disable_arm: List[str] = field(default_factory=lambda: ["open the airpods case"])
+    tasks_reset_env: List[str] = field(default_factory=lambda: ["reach the airpods case"])
     mask_action_as_zero: List[int] = field(default_factory=lambda: [2])
     reset_hand_on_start: bool = True
     robot_name: str = "panda"
