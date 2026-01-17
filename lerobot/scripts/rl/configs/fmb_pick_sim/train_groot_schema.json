@@ -52,7 +52,7 @@
             }
         },
         "output_features": {
-            "action": {
+            "actions": {
                 "type": "ACTION",
                 "shape": [
                     21
@@ -287,7 +287,7 @@
                 230
             ]
         },
-        "action": {
+        "actions": {
             "type": "ACTION",
             "shape": [
                 21
@@ -295,10 +295,10 @@
         }
     },
     "features_map": {
-        "observation.images.front": "observation.images.front",
-        "observation.images.wrist": "observation.images.wrist",
-        "observation.state": "observation.state",
-        "action": "action"
+        "observation.images.front": "video.wrist",
+        "observation.images.wrist": "video.wrist",
+        "observation.state": "state",
+        "actions": "action"
     },
     "reward_classifier_pretrained_path": null
 }

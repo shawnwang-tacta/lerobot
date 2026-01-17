@@ -285,7 +285,7 @@ def act_with_policy(
             log_policy_frequency_issue(policy_fps=policy_fps, cfg=cfg, interaction_step=interaction_step)
 
         else:
-            action = online_env.action_space.sample()
+            action = online_env.action_space.sample() * 0.0
 
         next_obs, reward, done, truncated, info = online_env.step(action)
 
