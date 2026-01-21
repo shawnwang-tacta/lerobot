@@ -53,6 +53,7 @@ from functools import lru_cache
 from queue import Empty
 
 import grpc
+import numpy as np
 import torch
 from torch import nn
 from torch.multiprocessing import Event, Queue
@@ -269,6 +270,13 @@ def act_with_policy(
     success_rate = 0.0
 
     policy_timer = TimerManager("Policy inference", log=False)
+    use_action_mapper = True
+    if use_action_mapper:
+        from tacta.control.gym_env.flexiv_env.action_mapper import (
+            ActionMapper,
+            ActionMapperConfig,
+        )
+        action_mapper = ActionMapper(ActionMapperConfig())
 
     for interaction_step in range(cfg.policy.online_steps):
         start_time = time.perf_counter()
@@ -282,6 +290,15 @@ def act_with_policy(
                 action = policy.select_action(batch=obs)
             policy_fps = policy_timer.fps_last
 
+            if use_action_mapper:
+                # Expect: action.size()=torch.Size([1, 4])
+                action_np = action.squeeze().cpu().numpy()
+                action_arm_pos = action_np[:3]
+                action_arm_ori = np.zeros_like(action_arm_pos)
+                action_hand = action_np[[3]]
+                action_hand_mapped = action_mapper.map(action_hand)
+                action_mapped_np = np.concatenate([action_arm_pos, action_arm_ori, action_hand_mapped])
+                action = torch.Tensor(action_mapped_np).unsqueeze(0)
             log_policy_frequency_issue(policy_fps=policy_fps, cfg=cfg, interaction_step=interaction_step)
 
         else:

@@ -1785,7 +1785,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             import tacta.control.gym_env.flexiv_env.arm_hand_manip_env
             from tacta.control.gym_env.flexiv_env.hand_manip_env import TactaManipEnvConfig, TactaHandType
             from tacta.control.gym_env.flexiv_env.arm_hand_manip_env import TactaArmHandManipEnvConfig
-            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper, SpaceMouseWrapper
+            from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper, SpaceMouseWrapper, KeyboardActionWrapper
             from tacta.perception.tacta_sensor.tacta_sensor_processor import TactaSensorProcessorConfig
             if "TactaArmHandManip" in cfg.task:
                 cfg_cls = TactaArmHandManipEnvConfig
@@ -1816,15 +1816,16 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     safety_bounds=cfg.tacta_env_config.safety_bounds,
                 )
             )
-            env = ManusWrapper(env, ManusControllerConfig(
-                    manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml",
-                    hand_type=cfg.tacta_env_config.hand_type_str,
-                    order_pip_first=cfg.tacta_env_config.order_pip_first,
-                )
-            )
+            # env = ManusWrapper(env, ManusControllerConfig(
+            #         manus_calibration_path="lerobot/scripts/rl/manus_calibration.yaml",
+            #         hand_type=cfg.tacta_env_config.hand_type_str,
+            #         order_pip_first=cfg.tacta_env_config.order_pip_first,
+            #     )
+            # )
             env = SpaceMouseWrapper(env)
             if cfg.tacta_env_config.use_keyboard_label:
                 env = KeyboardLabelWrapper(env)
+            env = KeyboardActionWrapper(env)
             cfg_tacta: HILEnvConfig = cfg
             env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
         else:

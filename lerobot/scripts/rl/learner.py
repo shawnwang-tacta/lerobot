@@ -53,6 +53,7 @@ from pathlib import Path
 from pprint import pformat
 
 import grpc
+import numpy as np
 import torch
 from termcolor import colored
 from torch import nn
@@ -106,6 +107,15 @@ LOG_PREFIX = "[LEARNER]"
 #################################################
 # MAIN ENTRY POINTS AND CORE ALGORITHM FUNCTIONS #
 #################################################
+
+
+def unmap_action(action_tensor: torch.Tensor, action_mapper) -> torch.Tensor:
+    action_np = action_tensor.cpu().numpy()
+    action_arm_pos = action_np[:, :3]
+    action_hand = action_np[:, 6:]
+    action_hand_policy = action_mapper.unmap(action_hand)
+    action_mapped_np = np.concatenate([action_arm_pos, action_hand_policy], axis=1)
+    return torch.Tensor(action_mapped_np)
 
 
 @parser.wrap()
@@ -344,6 +354,14 @@ def add_actor_information_and_train(
             storage_device=storage_device,
         )
         batch_size: int = batch_size // 2  # We will sample from both replay buffer
+    
+    use_action_mapper = True
+    if use_action_mapper:
+        from tacta.control.gym_env.flexiv_env.action_mapper import (
+            ActionMapper,
+            ActionMapperConfig,
+        )
+        action_mapper = ActionMapper(ActionMapperConfig())
 
     logging.info("Starting learner thread")
     interaction_message = None
@@ -415,6 +433,9 @@ def add_actor_information_and_train(
             done = batch["done"]
             check_nan_in_transition(observations=observations, actions=actions, next_state=next_observations)
 
+            if use_action_mapper:
+                actions = unmap_action(actions, action_mapper).to(device)
+
             observation_features, next_observation_features = get_observation_features(
                 policy=policy, observations=observations, next_observations=next_observations
             )
@@ -472,6 +493,8 @@ def add_actor_information_and_train(
         next_observations = batch["next_state"]
         done = batch["done"]
 
+        if use_action_mapper:
+            actions = unmap_action(actions, action_mapper).to(device)
         check_nan_in_transition(observations=observations, actions=actions, next_state=next_observations)
 
         observation_features, next_observation_features = get_observation_features(
