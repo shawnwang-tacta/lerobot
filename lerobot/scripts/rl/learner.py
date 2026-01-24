@@ -114,7 +114,7 @@ def unmap_action(action_tensor: torch.Tensor, action_mapper) -> torch.Tensor:
     action_arm_pos = action_np[:, :3]
     action_hand = action_np[:, 6:]
     action_hand_policy = action_mapper.unmap(action_hand)
-    action_mapped_np = np.concatenate([action_arm_pos, action_hand_policy], axis=1)
+    action_mapped_np = np.concatenate([action_arm_pos, action_hand_policy * 10.0], axis=1)
     return torch.Tensor(action_mapped_np)
 
 
@@ -312,6 +312,7 @@ def add_actor_information_and_train(
     saving_checkpoint = cfg.save_checkpoint
     online_steps = cfg.policy.online_steps
     async_prefetch = cfg.policy.async_prefetch
+    total_steps = cfg.steps
 
     # Initialize logging for multiprocessing
     if not use_threads(cfg):
@@ -383,6 +384,12 @@ def add_actor_information_and_train(
             logging.info("[LEARNER] Shutdown signal received. Exiting...")
             break
 
+        if total_steps is not None and optimization_step >= total_steps:
+            logging.info(
+                f"[LEARNER] Reached total training steps: {format_big_number(total_steps)}. Exiting..."
+            )
+            break
+
         # Process all available transitions to the replay buffer, send by the actor server
         process_transitions(
             transition_queue=transition_queue,
@@ -435,6 +442,8 @@ def add_actor_information_and_train(
 
             if use_action_mapper:
                 actions = unmap_action(actions, action_mapper).to(device)
+                # change the action from offline from 10Hz to 2Hz to match the online data which is repeated 5 times
+                actions[batch_size:] /= cfg.step_repeat
 
             observation_features, next_observation_features = get_observation_features(
                 policy=policy, observations=observations, next_observations=next_observations
@@ -495,6 +504,8 @@ def add_actor_information_and_train(
 
         if use_action_mapper:
             actions = unmap_action(actions, action_mapper).to(device)
+            # change the action from offline from 10Hz to 2Hz to match the online data which is repeated 5 times
+            actions[batch_size:] /= cfg.step_repeat
         check_nan_in_transition(observations=observations, actions=actions, next_state=next_observations)
 
         observation_features, next_observation_features = get_observation_features(
@@ -527,6 +538,24 @@ def add_actor_information_and_train(
             "loss_critic": loss_critic.item(),
             "critic_grad_norm": critic_grad_norm,
         }
+
+        if cfg.policy.use_imitation_learning:
+            predicted_action, imitation_learning_loss = policy.forward_imitation_learning(
+                observations,
+                actions,
+                observation_features,
+            )
+            loss_imitation = imitation_learning_loss * cfg.policy.imitation_learning_weight
+            optimizers["actor"].zero_grad()
+            loss_imitation.backward()
+            imitation_grad_norm = torch.nn.utils.clip_grad_norm_(
+                parameters=policy.actor.parameters(), max_norm=clip_grad_norm_value
+            ).item()
+            optimizers["actor"].step()
+
+            # Add imitation info to training info
+            training_infos["loss_imitation"] = loss_imitation.item()
+            training_infos["imitation_grad_norm"] = imitation_grad_norm
 
         # Discrete critic optimization (if available)
         if policy.config.num_discrete_actions is not None:

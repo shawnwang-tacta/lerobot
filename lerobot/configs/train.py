@@ -63,6 +63,7 @@ class TrainPipelineConfig(HubMixin):
     scheduler: LRSchedulerConfig | None = None
     eval: EvalConfig = field(default_factory=EvalConfig)
     wandb: WandBConfig = field(default_factory=WandBConfig)
+    step_repeat: int = 1  # Number of times to repeat each action in the environment
 
     def __post_init__(self):
         self.checkpoint_path = None

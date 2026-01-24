@@ -296,7 +296,7 @@ def act_with_policy(
                 action_arm_pos = action_np[:3]
                 action_arm_ori = np.zeros_like(action_arm_pos)
                 action_hand = action_np[[3]]
-                action_hand_mapped = action_mapper.map(action_hand)
+                action_hand_mapped = action_mapper.map(action_hand / 10.0)
                 action_mapped_np = np.concatenate([action_arm_pos, action_arm_ori, action_hand_mapped])
                 action = torch.Tensor(action_mapped_np).unsqueeze(0)
             log_policy_frequency_issue(policy_fps=policy_fps, cfg=cfg, interaction_step=interaction_step)
@@ -304,7 +304,10 @@ def act_with_policy(
         else:
             action = online_env.action_space.sample() * 0.0
 
-        next_obs, reward, done, truncated, info = online_env.step(action)
+        for repeat in range(cfg.step_repeat):
+            # Try 2 Hz
+            print(f"Step {interaction_step}, repeat {repeat}, action: {action}")
+            next_obs, reward, done, truncated, info = online_env.step(action)
 
         if isinstance(cfg.policy, SACConfig):
             action_tensor = torch.Tensor(action).unsqueeze(0)

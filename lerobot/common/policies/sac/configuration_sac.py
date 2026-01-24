@@ -78,7 +78,7 @@ class PolicyConfig:
 
 @dataclass
 class ConstraintPenaltyConfig:
-    action_norm_penalty_coeff : float = -0.01
+    action_norm_penalty_coeff : float = -0.001
 
 @PreTrainedConfig.register_subclass("sac")
 @dataclass
@@ -201,6 +201,9 @@ class SACConfig(PreTrainedConfig):
     actor_learner_config: ActorLearnerConfig = field(default_factory=ActorLearnerConfig)
     # Configuration for concurrency settings (you can use threads or processes for the actor and learner)
     concurrency: ConcurrencyConfig = field(default_factory=ConcurrencyConfig)
+
+    use_imitation_learning: bool = True
+    imitation_learning_weight: float = 0.0
 
     # Optimizations
     use_torch_compile: bool = True

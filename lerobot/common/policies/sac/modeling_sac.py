@@ -101,6 +101,13 @@ class SACPolicy(
             actions = torch.cat([actions, discrete_action], dim=-1)
 
         return actions
+    
+    def forward_imitation_learning(self, observations, actions, observation_features=None):
+        """Compute the imitation learning loss, only for offline data"""
+        batch_size = actions.size(0)
+        predicted_actions, _, _ = self.actor(observations, observation_features)
+        imitation_loss = F.mse_loss(predicted_actions[batch_size//2:], actions[batch_size//2:])
+        return predicted_actions, imitation_loss
 
     def critic_forward(
         self,
