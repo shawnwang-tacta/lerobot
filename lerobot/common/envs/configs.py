@@ -297,6 +297,7 @@ class HILEnvConfig(EnvConfig):
     mask_shear: bool = True
     mask_image_keys: list[str] = field(default_factory=lambda: [])
     ############################
+    step_repeat: int = 1  # Number of times to repeat each action in the environment
 
     # 
 

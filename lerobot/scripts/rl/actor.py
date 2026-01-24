@@ -304,7 +304,7 @@ def act_with_policy(
         else:
             action = online_env.action_space.sample() * 0.0
 
-        for repeat in range(cfg.step_repeat):
+        for repeat in range(cfg.env.step_repeat):
             # Try 2 Hz
             print(f"Step {interaction_step}, repeat {repeat}, action: {action}")
             next_obs, reward, done, truncated, info = online_env.step(action)
