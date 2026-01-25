@@ -292,7 +292,7 @@ def act_with_policy(
             policy_fps = policy_timer.fps_last
 
             if use_action_mapper:
-                action = map_action(action, action_mapper).to(cfg.device)
+                action = map_action(action, action_mapper).to(device)
 
             log_policy_frequency_issue(policy_fps=policy_fps, cfg=cfg, interaction_step=interaction_step)
 
