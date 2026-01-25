@@ -89,6 +89,7 @@ from lerobot.common.utils.utils import (
 from lerobot.configs import parser
 from lerobot.configs.train import TrainRLServerPipelineConfig
 from lerobot.scripts.rl import learner_service
+from lerobot.scripts.rl.action_mapper_wrapper import map_action
 from lerobot.scripts.rl.gym_manipulator import make_robot_env
 
 ACTOR_SHUTDOWN_TIMEOUT = 30
@@ -291,14 +292,8 @@ def act_with_policy(
             policy_fps = policy_timer.fps_last
 
             if use_action_mapper:
-                # Expect: action.size()=torch.Size([1, 4])
-                action_np = action.squeeze().cpu().numpy()
-                action_arm_pos = action_np[:3]
-                action_arm_ori = np.zeros_like(action_arm_pos)
-                action_hand = action_np[[3]]
-                action_hand_mapped = action_mapper.map(action_hand / 10.0)
-                action_mapped_np = np.concatenate([action_arm_pos, action_arm_ori, action_hand_mapped])
-                action = torch.Tensor(action_mapped_np).unsqueeze(0)
+                action = map_action(action, action_mapper).to(cfg.device)
+
             log_policy_frequency_issue(policy_fps=policy_fps, cfg=cfg, interaction_step=interaction_step)
 
         else:

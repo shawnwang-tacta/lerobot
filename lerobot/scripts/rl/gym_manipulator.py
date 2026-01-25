@@ -65,6 +65,7 @@ from lerobot.common.teleoperators.gamepad.teleop_gamepad import GamepadTeleop
 from lerobot.common.utils.robot_utils import busy_wait
 from lerobot.common.utils.utils import log_say
 from lerobot.configs import parser
+from lerobot.scripts.rl.action_mapper_wrapper import map_action
 
 logging.basicConfig(level=logging.INFO)
 
@@ -2133,7 +2134,6 @@ def record_dataset(env, policy, cfg):
     if cfg.push_to_hub:
         dataset.push_to_hub()
 
-
 def evaluate(env, policy, cfg: HILEnvConfig):
     """
     Evaluate robot interactions using learned policy.
@@ -2164,6 +2164,14 @@ def evaluate(env, policy, cfg: HILEnvConfig):
         "mean_tau_fingers": [],
     }
 
+    use_action_mapper = True
+    if use_action_mapper:
+        from tacta.control.gym_env.flexiv_env.action_mapper import (
+            ActionMapper,
+            ActionMapperConfig,
+        )
+        action_mapper = ActionMapper(ActionMapperConfig())
+
     episode_index = 0
     while episode_index < cfg.num_episodes:
         obs, _ = env.reset()
@@ -2184,6 +2192,9 @@ def evaluate(env, policy, cfg: HILEnvConfig):
             # Get action from policy if available
             if cfg.pretrained_policy_name_or_path is not None:
                 action = policy.select_action(obs)
+
+            if use_action_mapper:
+                action = map_action(action, action_mapper).to(cfg.device)
 
             # Step environment
             obs, reward, terminated, truncated, info = env.step(action)

@@ -444,7 +444,6 @@ def add_actor_information_and_train(
                 actions = unmap_action(actions, action_mapper).to(device)
                 # change the action from offline from 10Hz to 2Hz to match the online data which is repeated 5 times
                 actions[batch_size:] /= cfg.env.step_repeat
-
             observation_features, next_observation_features = get_observation_features(
                 policy=policy, observations=observations, next_observations=next_observations
             )

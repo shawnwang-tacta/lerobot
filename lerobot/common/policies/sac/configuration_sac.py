@@ -78,7 +78,7 @@ class PolicyConfig:
 
 @dataclass
 class ConstraintPenaltyConfig:
-    action_norm_penalty_coeff : float = -0.001
+    action_norm_penalty_coeff : float = -0.01
 
 @PreTrainedConfig.register_subclass("sac")
 @dataclass
