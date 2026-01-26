@@ -40,7 +40,7 @@ DISCRETE_DIMENSION_INDEX = -1  # Gripper is always the last dimension
 def compute_constraint_penalty(actions: Tensor, config: ConstraintPenaltyConfig) -> Tensor:
     # action norm, shape: (batch_size, action_dim)
     action_norm_l2 = torch.norm(actions, p=2, dim=-1)
-    constraint_penalty = action_norm_l2 * config.action_norm_penalty_coeff
+    constraint_penalty = action_norm_l2 * config.action_norm_penalty_coeff + config.const_penalty
     return constraint_penalty
 
 class SACPolicy(
