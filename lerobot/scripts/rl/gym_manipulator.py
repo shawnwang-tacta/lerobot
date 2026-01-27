@@ -1815,6 +1815,8 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     robot_name=cfg.tacta_env_config.robot_name,
                     use_pubsub=cfg.tacta_env_config.use_pubsub,
                     safety_bounds=cfg.tacta_env_config.safety_bounds,
+                    env_step_dt=cfg.tacta_env_config.env_step_dt,
+                    max_episode_length=cfg.tacta_env_config.max_episode_length,
                 )
             )
             # env = ManusWrapper(env, ManusControllerConfig(
