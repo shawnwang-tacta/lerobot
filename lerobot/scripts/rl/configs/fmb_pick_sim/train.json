@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "fmb_pick/session_001",
+        "repo_id": "fmb_pick_2/fmb_pickreach_2",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -259,7 +259,7 @@
     },
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "fmb_pick/session_001",
+    "repo_id": "fmb_pick_2/fmb_pickreach_2",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,

@@ -319,7 +319,7 @@ def act_with_policy(
             next_obs, reward, done, truncated, info = online_env.step(action)
         
         il_ratio = max(0, il_ratio - il_ratio_decay)
-        print(f"IL ratio: {il_ratio:.4f}")
+        print(f"iteraction step {interaction_step} IL ratio: {il_ratio:.4f}")
 
         if isinstance(cfg.policy, SACConfig):
             action_tensor = torch.Tensor(action).unsqueeze(0)
