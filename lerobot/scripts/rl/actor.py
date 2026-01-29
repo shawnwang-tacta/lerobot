@@ -59,6 +59,7 @@ from torch import nn
 from torch.multiprocessing import Event, Queue
 
 from lerobot.common.cameras import opencv  # noqa: F401
+from lerobot.common.envs.configs import HILEnvConfig
 from lerobot.common.policies.factory import make_policy
 from lerobot.common.policies.sac.configuration_sac import SACConfig
 from lerobot.common.policies.sac.modeling_sac import SACPolicy, compute_constraint_penalty
@@ -90,6 +91,7 @@ from lerobot.configs import parser
 from lerobot.configs.train import TrainRLServerPipelineConfig
 from lerobot.scripts.rl import learner_service
 from lerobot.scripts.rl.action_mapper_wrapper import map_action
+from lerobot.scripts.rl.action_provider_wrapper import make_il_action_provider
 from lerobot.scripts.rl.gym_manipulator import make_robot_env
 
 ACTOR_SHUTDOWN_TIMEOUT = 30
@@ -259,6 +261,10 @@ def act_with_policy(
     policy = policy.eval()
     assert isinstance(policy, nn.Module)
 
+    il_action_provider = None
+    if isinstance(cfg.env, HILEnvConfig) and cfg.env.enable_residual_rl:
+        il_action_provider = make_il_action_provider(cfg.env.model_server_url)
+
     obs, info = online_env.reset()
 
     # NOTE: For the moment we will solely handle the case of a single environment
@@ -279,6 +285,9 @@ def act_with_policy(
         )
         action_mapper = ActionMapper(ActionMapperConfig())
 
+    il_ratio = cfg.env.il_ratio_max
+    # il_ratio_decay = np.exp(np.log(1e-3)/cfg.env.il_ratio_decay_stop_step)
+    il_ratio_decay = 1.0 / cfg.env.il_ratio_decay_stop_step
     for interaction_step in range(cfg.policy.online_steps):
         start_time = time.perf_counter()
         if shutdown_event.is_set():
@@ -298,11 +307,19 @@ def act_with_policy(
 
         else:
             action = online_env.action_space.sample() * 0.0
-
+        
+        rl_action = action
         for repeat in range(cfg.env.step_repeat):
+            if il_action_provider is not None:
+                raw_obs = online_env.raw_obs
+                il_action = il_action_provider.get_action(raw_obs)
+                il_action = torch.tensor(il_action, device=rl_action.device)
+                action = (1 - il_ratio) * rl_action + il_ratio * il_action
             # Try 2 Hz
-            print(f"Step {interaction_step}, repeat {repeat}, action: {action}")
             next_obs, reward, done, truncated, info = online_env.step(action)
+        
+        il_ratio = max(0, il_ratio - il_ratio_decay)
+        print(f"IL ratio: {il_ratio:.4f}")
 
         if isinstance(cfg.policy, SACConfig):
             action_tensor = torch.Tensor(action).unsqueeze(0)
@@ -369,6 +386,7 @@ def act_with_policy(
                         "Episode intervention": int(episode_intervention),
                         "Intervention rate": intervention_rate,
                         "Success rate": success_rate,
+                        "Imitation learning ratio": il_ratio,
                         **stats,
                     }
                 )

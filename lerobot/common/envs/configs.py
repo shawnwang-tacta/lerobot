@@ -220,7 +220,7 @@ class TactaEnvConfig:
     )
     env_step_dt: float = 0.09
     # for policy with 10 fps, max time is 10 seconds
-    max_episode_length: int = 100
+    max_episode_length: int = 150
 
 
 @EnvConfig.register_subclass(name="gym_manipulator")
@@ -302,6 +302,8 @@ class HILEnvConfig(EnvConfig):
     mask_image_keys: list[str] = field(default_factory=lambda: [])
     ############################
     step_repeat: int = 1  # Number of times to repeat each action in the environment
+    il_ratio_decay_stop_step: int = 100000  # Step to stop decaying IL ratio
+    il_ratio_max: float = 1.0  # Maximum IL ratio at the start of training
 
     enable_residual_rl: bool = True
     model_server_url: str = "http://localhost:8000/predict"

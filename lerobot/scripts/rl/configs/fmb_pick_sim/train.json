@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "fmb_pick_2_adding_picking/fmb_pickreach_2",
+        "repo_id": "fmb_pick/session_001",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -259,7 +259,7 @@
     },
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "fmb_pick_2_adding_picking/fmb_pickreach_2",
+    "repo_id": "fmb_pick/session_001",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
@@ -267,8 +267,8 @@
     "pretrained_policy_name_or_path": null,
     "device": "cuda",
     "push_to_hub": false,
-    "fps": 2,
-    "step_repeat": 5,
+    "fps": 10,
+    "step_repeat": 1,
     "features": {
         "observation.images.front": {
             "type": "VISUAL",
