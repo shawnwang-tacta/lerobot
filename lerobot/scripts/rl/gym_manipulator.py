@@ -66,6 +66,7 @@ from lerobot.common.utils.robot_utils import busy_wait
 from lerobot.common.utils.utils import log_say
 from lerobot.configs import parser
 from lerobot.scripts.rl.action_mapper_wrapper import map_action
+from lerobot.scripts.rl.action_provider_wrapper import make_il_action_provider
 
 logging.basicConfig(level=logging.INFO)
 
@@ -1757,6 +1758,19 @@ class GymHilObservationProcessorWrapper(gym.ObservationWrapper):
     def observation(self, observation: dict[str, Any]) -> dict[str, Any]:
         return preprocess_observation(observation)
 
+class StepTapWrapper(gym.Wrapper):
+    def __init__(self, env):
+        super().__init__(env)
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        self.raw_obs = obs
+        return obs, reward, terminated, truncated, info
+    
+    def reset(self, **kwargs):
+        raw_obs, raw_info = self.env.reset(**kwargs)
+        self.raw_obs = raw_obs
+        return raw_obs, raw_info
 
 ###########################################################
 # Factory functions
@@ -1840,6 +1854,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                 gripper_penalty=cfg.wrapper.gripper_penalty,
                 random_block_position=False
             )
+        env = StepTapWrapper(env=env)
         env = GymHilObservationProcessorWrapper(env=env)
         env = GymHilDeviceWrapper(env=env, device=cfg.device)
         env = BatchCompatibleWrapper(env=env)
@@ -2174,9 +2189,14 @@ def evaluate(env, policy, cfg: HILEnvConfig):
         )
         action_mapper = ActionMapper(ActionMapperConfig())
 
+    if cfg.enable_residual_rl:
+        il_action_provider = make_il_action_provider(cfg.model_server_url)
+
     episode_index = 0
     while episode_index < cfg.num_episodes:
         obs, _ = env.reset()
+        if cfg.enable_residual_rl:
+            il_action_provider.on_episode_start()
         start_episode_t = time.perf_counter()
         log_say(f"Recording episode {episode_index}", play_sounds=True)
 
@@ -2191,12 +2211,17 @@ def evaluate(env, policy, cfg: HILEnvConfig):
             start_loop_t = time.perf_counter()
             episode_length += 1
 
-            # Get action from policy if available
-            if cfg.pretrained_policy_name_or_path is not None:
-                action = policy.select_action(obs)
+            if cfg.enable_residual_rl:
+                raw_obs = env.raw_obs
+                il_action = il_action_provider.get_action(raw_obs)
+                action = torch.tensor(il_action, device=cfg.device)
+            else:
+                # Get action from policy if available
+                if cfg.pretrained_policy_name_or_path is not None:
+                    action = policy.select_action(obs)
 
-            if use_action_mapper:
-                action = map_action(action, action_mapper).to(cfg.device)
+                if use_action_mapper:
+                    action = map_action(action, action_mapper).to(cfg.device)
 
             # Step environment
             obs, reward, terminated, truncated, info = env.step(action)

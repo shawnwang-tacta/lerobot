@@ -303,7 +303,8 @@ class HILEnvConfig(EnvConfig):
     ############################
     step_repeat: int = 1  # Number of times to repeat each action in the environment
 
-    # 
+    enable_residual_rl: bool = True
+    model_server_url: str = "http://localhost:8000/predict"
 
     @property
     def gym_kwargs(self) -> dict:
