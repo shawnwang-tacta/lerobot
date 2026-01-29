@@ -313,8 +313,10 @@ def act_with_policy(
             if il_action_provider is not None:
                 raw_obs = online_env.raw_obs
                 il_action = il_action_provider.get_action(raw_obs)
+                il_action[6:23] /= 10.0
                 il_action = torch.tensor(il_action, device=rl_action.device)
                 action = (1 - il_ratio) * rl_action + il_ratio * il_action
+                print(f"IL action: {il_action.cpu().numpy()}, RL action: {rl_action.cpu().numpy()}, Applied action: {action.cpu().numpy()}")
             # Try 2 Hz
             next_obs, reward, done, truncated, info = online_env.step(action)
         
@@ -399,6 +401,8 @@ def act_with_policy(
             episode_total_steps = 0
             success_rate = 0.0
             obs, info = online_env.reset()
+            if il_action_provider is not None:
+                il_action_provider.on_episode_start()
 
         if cfg.env.fps is not None:
             dt_time = time.perf_counter() - start_time
