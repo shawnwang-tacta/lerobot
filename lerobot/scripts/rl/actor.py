@@ -285,8 +285,8 @@ def act_with_policy(
         )
         action_mapper = ActionMapper(ActionMapperConfig())
 
-    # il_ratio = cfg.env.il_ratio_max
-    il_ratio = 0.5
+    il_ratio = cfg.env.il_ratio_max
+    # il_ratio = 0.5
     # il_ratio_decay = np.exp(np.log(1e-3)/cfg.env.il_ratio_decay_stop_step)
     il_ratio_decay = 1.0 / cfg.env.il_ratio_decay_stop_step
     for interaction_step in range(cfg.policy.online_steps):
@@ -326,7 +326,7 @@ def act_with_policy(
             # Try 2 Hz
             next_obs, reward, done, truncated, info = online_env.step(action)
         
-        # il_ratio = max(0, il_ratio - il_ratio_decay)
+        il_ratio = max(0, il_ratio - il_ratio_decay)
         print(f"iteraction step {interaction_step} IL ratio: {il_ratio:.4f}")
 
         if isinstance(cfg.policy, SACConfig):
