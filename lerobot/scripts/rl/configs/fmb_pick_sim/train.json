@@ -267,8 +267,8 @@
     "pretrained_policy_name_or_path": null,
     "device": "cuda",
     "push_to_hub": false,
-    "fps": 10,
-    "step_repeat": 1,
+    "fps": 2,
+    "step_repeat": 5,
     "features": {
         "observation.images.front": {
             "type": "VISUAL",
