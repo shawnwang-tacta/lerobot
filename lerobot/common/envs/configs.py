@@ -304,6 +304,7 @@ class HILEnvConfig(EnvConfig):
     step_repeat: int = 1  # Number of times to repeat each action in the environment
     il_ratio_decay_stop_step: int = 50000  # Step to stop decaying IL ratio
     il_ratio_max: float = 1.0  # Maximum IL ratio at the start of training
+    il_action_chunk_scale: float = 1.2 # Scale for IL action chunk averaging
 
     enable_residual_rl: bool = True
     model_server_url: str = "http://localhost:8000/predict"
