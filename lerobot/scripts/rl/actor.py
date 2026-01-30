@@ -285,7 +285,8 @@ def act_with_policy(
         )
         action_mapper = ActionMapper(ActionMapperConfig())
 
-    il_ratio = cfg.env.il_ratio_max
+    # il_ratio = cfg.env.il_ratio_max
+    il_ratio = 0.5
     # il_ratio_decay = np.exp(np.log(1e-3)/cfg.env.il_ratio_decay_stop_step)
     il_ratio_decay = 1.0 / cfg.env.il_ratio_decay_stop_step
     for interaction_step in range(cfg.policy.online_steps):
@@ -313,14 +314,17 @@ def act_with_policy(
             if il_action_provider is not None:
                 raw_obs = online_env.raw_obs
                 il_action = il_action_provider.get_action(raw_obs)
-                il_action[6:23] /= 10.0
                 il_action = torch.tensor(il_action, device=rl_action.device)
                 action = (1 - il_ratio) * rl_action + il_ratio * il_action
+                # if np.random.rand() < il_ratio:
+                #     action = il_action
+                # else:
+                #     action = rl_action
                 print(f"IL action: {il_action.cpu().numpy()}, RL action: {rl_action.cpu().numpy()}, Applied action: {action.cpu().numpy()}")
             # Try 2 Hz
             next_obs, reward, done, truncated, info = online_env.step(action)
         
-        il_ratio = max(0, il_ratio - il_ratio_decay)
+        # il_ratio = max(0, il_ratio - il_ratio_decay)
         print(f"iteraction step {interaction_step} IL ratio: {il_ratio:.4f}")
 
         if isinstance(cfg.policy, SACConfig):

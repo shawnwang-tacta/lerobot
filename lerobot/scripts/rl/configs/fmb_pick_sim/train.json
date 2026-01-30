@@ -8,7 +8,7 @@
     "steps": 24001,
     "log_freq": 1,
     "save_checkpoint": true,
-    "save_freq": 2000,
+    "save_freq": 8000,
     "wandb": {
         "enable": true,
         "project": "metrics_arm_articulated_sim",
