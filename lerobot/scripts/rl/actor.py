@@ -317,19 +317,12 @@ def act_with_policy(
                 raw_obs = online_env.raw_obs
                 il_action = il_action_provider.get_action(raw_obs)
                 il_action = torch.tensor(il_action, device=rl_action.device)
-                # action = (1 - il_ratio) * rl_action + il_ratio * il_action
                 il_action_chunk.append(il_action)
             il_action = torch.stack(il_action_chunk).mean(dim=0) * cfg.env.il_action_chunk_scale
             action = (1 - il_ratio) * rl_action + il_ratio * il_action
-
             print(f"IL action: {il_action.cpu().numpy()}, RL action: {rl_action.cpu().numpy()}, Applied action: {action.cpu().numpy()}")
 
         for repeat in range(cfg.env.step_repeat):
-            # if repeat > 0:
-            #     if il_action_provider is not None:
-            #         raw_obs = online_env.raw_obs
-            #         il_action = il_action_provider.get_action(raw_obs)
-            # Try 2 Hz
             next_obs, reward, done, truncated, info = online_env.step(action)
         
         il_ratio = max(0, il_ratio - il_ratio_decay)

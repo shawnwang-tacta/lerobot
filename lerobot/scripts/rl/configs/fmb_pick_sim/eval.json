@@ -63,14 +63,15 @@
     "repo_id": "wx405557858/tacta_manip_articulated_real_tacta_1",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
-    "num_episodes": 60,
+    "num_episodes": 1000,
     "number_of_steps_after_success": 10,
     "episode": 0,
-    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2026-01-25/14-31-26_default/checkpoints/0024000/pretrained_model",
+    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2026-01-30/10-10-47_default/checkpoints/0024000/pretrained_model",
     "mask_shear": false,
     "device": "cpu",
     "push_to_hub": true,
     "fps": 10,
+    "enable_residual_rl": false,
     "features": {
         "observation.images.front": {
             "type": "VISUAL",
