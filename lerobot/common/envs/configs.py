@@ -308,7 +308,7 @@ class HILEnvConfig(EnvConfig):
     il_ratio_max: float = 1.0  # Maximum IL ratio at the start of training
     il_action_chunk_scale: float = 1.2 # Scale for IL action chunk averaging
 
-    enable_residual_rl: bool = True
+    enable_residual_rl: bool = False
     model_server_url: str = "http://localhost:8000/predict"
 
     @property
