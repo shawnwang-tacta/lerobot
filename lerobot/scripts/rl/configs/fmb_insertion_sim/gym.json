@@ -50,13 +50,13 @@
         "record_mocap": false,
         "step_sleep_ratio": 0.9,
         "use_keyboard_label": true,
-        "tactile_min": 0.0,
-        "tactile_max": -5.0,
+        "tactile_min": -30.0,
+        "tactile_max": -30.0,
         "use_tacta_sensor": false,
-        "tasks": ["pick up the object and place it above the corresponding target."],
         "mask_action_as_zero": [1],
         "reset_hand_on_start": true,
-        "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]]
+        "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]],
+        "reset_finger_positions": [70.0, -40.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     },
     "name": "franka_sim",
     "mode": null,

@@ -222,6 +222,7 @@ class TactaEnvConfig:
     # for policy with 10 fps, max time is 10 seconds
     max_episode_length: int = 100
     task_type: TaskType = TaskType.FMB_INSERT
+    reset_finger_positions: List[float] = field(default_factory=lambda: [70.0, -40.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
 
 @EnvConfig.register_subclass(name="gym_manipulator")
