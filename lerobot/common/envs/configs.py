@@ -23,7 +23,7 @@ from lerobot.common.constants import ACTION, OBS_ENV_STATE, OBS_IMAGE, OBS_IMAGE
 from lerobot.common.robots import RobotConfig
 from lerobot.common.teleoperators.config import TeleoperatorConfig
 from lerobot.configs.types import FeatureType, PolicyFeature
-
+from tacta.control.gym_env.flexiv_env.task_scheduler import TaskType
 
 @dataclass
 class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
@@ -221,6 +221,7 @@ class TactaEnvConfig:
     env_step_dt: float = 0.09
     # for policy with 10 fps, max time is 10 seconds
     max_episode_length: int = 100
+    task_type: TaskType = TaskType.FMB_INSERT
 
 
 @EnvConfig.register_subclass(name="gym_manipulator")
