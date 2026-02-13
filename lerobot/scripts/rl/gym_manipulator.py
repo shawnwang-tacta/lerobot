@@ -1817,7 +1817,6 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     wrist_view_camera_key=cfg.tacta_env_config.wrist_view_camera_key,
                     record_mocap=cfg.tacta_env_config.record_mocap,
                     use_tacta_sensor=cfg.tacta_env_config.use_tacta_sensor,
-                    tasks=cfg.tacta_env_config.tasks,
                     mask_action_as_zero=cfg.tacta_env_config.mask_action_as_zero,
                     tacta_sensor_processor_config=TactaSensorProcessorConfig(
                         calibration_file=cfg.tacta_env_config.tacta_sensor_calibration_file,
