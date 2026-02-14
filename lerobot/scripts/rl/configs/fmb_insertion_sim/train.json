@@ -258,7 +258,7 @@
         "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]],
         "reset_finger_positions": [70.0, -40.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     },
-    "disable_hand": false,
+    "disable_hand": true,
     "name": "franka_sim",
     "mode": null,
     "repo_id": "fmb_pick/session_001",

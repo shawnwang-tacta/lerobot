@@ -322,8 +322,9 @@ def act_with_policy(
             action = (1 - il_ratio) * rl_action + il_ratio * il_action
             print(f"IL action: {il_action.cpu().numpy()}, RL action: {rl_action.cpu().numpy()}, Applied action: {action.cpu().numpy()}")
         
-        # if cfg.env.disable_hand:
-        #     action[-cfg.env.hand_dof :] = 0.0
+        if cfg.env.disable_hand:
+            action[-cfg.env.hand_dof :] = 0.0
+        
         for repeat in range(cfg.env.step_repeat):
             next_obs, reward, done, truncated, info = online_env.step(action)
         

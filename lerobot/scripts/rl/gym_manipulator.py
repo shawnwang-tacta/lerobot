@@ -2406,6 +2406,9 @@ def main(cfg: EnvConfig):
         # Update the smoothed action using an exponential moving average.
         smoothed_action = alpha * new_random_action + (1 - alpha) * smoothed_action
 
+        if cfg.disable_hand:
+            smoothed_action[-cfg.hand_dof :] = 0.0
+
         # Execute the step: wrap the NumPy action in a torch tensor.
         obs, reward, terminated, truncated, info = env.step(smoothed_action)
         if terminated or truncated:
