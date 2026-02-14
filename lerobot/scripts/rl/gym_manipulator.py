@@ -67,6 +67,7 @@ from lerobot.common.utils.utils import log_say
 from lerobot.configs import parser
 from lerobot.scripts.rl.action_mapper_wrapper import map_action
 from lerobot.scripts.rl.action_provider_wrapper import make_il_action_provider
+from tacta.control.gym_env.flexiv_env.task_scheduler import TaskState
 
 logging.basicConfig(level=logging.INFO)
 
@@ -1758,6 +1759,34 @@ class GymHilObservationProcessorWrapper(gym.ObservationWrapper):
     def observation(self, observation: dict[str, Any]) -> dict[str, Any]:
         return preprocess_observation(observation)
 
+class TaskStateUnfoldWrapper(gym.Wrapper):
+    """Unfolds info["task_state"] dict into flat info keys as int values.
+
+    For each key-value pair in info["task_state"], this wrapper adds
+    info["task_state/{key}"] only if the value is integer-like
+    (int, bool, numpy integers). String values are skipped.
+    """
+
+    def _unfold_task_state(self, info: dict) -> dict:
+        task_state = info.get("task_state")
+        if task_state is None or not isinstance(task_state, TaskState):
+            return info
+        info["task_state/current_substep_id"] = task_state.current_substep_id
+        info["task_state/task_id"] = task_state.task_id
+        info.pop("task_state", None)
+        return info
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        info = self._unfold_task_state(info)
+        return obs, reward, terminated, truncated, info
+
+    def reset(self, **kwargs):
+        obs, info = self.env.reset(**kwargs)
+        info = self._unfold_task_state(info)
+        return obs, info
+
+
 class StepTapWrapper(gym.Wrapper):
     def __init__(self, env):
         super().__init__(env)
@@ -1840,6 +1869,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             #         order_pip_first=cfg.tacta_env_config.order_pip_first,
             #     )
             # )
+            env = TaskStateUnfoldWrapper(env)
             env = SpaceMouseWrapper(env)
             if cfg.tacta_env_config.use_keyboard_label:
                 env = KeyboardLabelWrapper(env)
