@@ -222,7 +222,7 @@ class TactaEnvConfig:
     # for policy with 10 fps, max time is 10 seconds
     max_episode_length: int = 100
     task_type: TaskType = TaskType.FMB_INSERT
-    reset_finger_positions: List[float] = field(default_factory=lambda: [70.0, -40.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    reset_finger_positions: List[float] = field(default_factory=lambda: [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
 
 @EnvConfig.register_subclass(name="gym_manipulator")
@@ -308,8 +308,10 @@ class HILEnvConfig(EnvConfig):
     il_ratio_max: float = 1.0  # Maximum IL ratio at the start of training
     il_action_chunk_scale: float = 1.2 # Scale for IL action chunk averaging
 
-    enable_residual_rl: bool = False
+    enable_residual_rl: bool = True
     model_server_url: str = "http://localhost:8000/predict"
+    hand_dof: int = 15
+    disable_hand: bool = False
 
     @property
     def gym_kwargs(self) -> dict:

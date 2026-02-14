@@ -40,7 +40,7 @@
     "tacta_env_config": {
         "hand_id": "hand1",
         "hand_type_str": "tacta_five_finger",
-        "finger_names": ["finger1", "finger2", "finger3", "finger4", "finger5"],
+        "finger_names": ["thumb", "finger1", "finger2", "finger3", "finger4"],
         "finger_positions_bounds": [
             [0.0, -10.0, 0.0], 
             [60.0, 10.0, 90.0]
@@ -53,7 +53,7 @@
         "tactile_min": -30.0,
         "tactile_max": -30.0,
         "use_tacta_sensor": false,
-        "mask_action_as_zero": [1],
+        "mask_action_as_zero": [],
         "reset_hand_on_start": true,
         "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
