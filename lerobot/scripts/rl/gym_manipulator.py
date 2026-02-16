@@ -1763,7 +1763,7 @@ class TaskStateUnfoldWrapper(gym.Wrapper):
     """Unfolds info["task_state"] dict into flat info keys as int values.
 
     For each key-value pair in info["task_state"], this wrapper adds
-    info["task_state/{key}"] only if the value is integer-like
+    info["task_state.{key}"] only if the value is integer-like
     (int, bool, numpy integers). String values are skipped.
     """
 
@@ -1771,8 +1771,8 @@ class TaskStateUnfoldWrapper(gym.Wrapper):
         task_state = info.get("task_state")
         if task_state is None or not isinstance(task_state, TaskState):
             return info
-        info["task_state/current_substep_id"] = task_state.current_substep_id
-        info["task_state/task_id"] = task_state.task_id
+        info["task_state.current_substep_id"] = task_state.current_substep_id
+        info["task_state.task_id"] = task_state.task_id
         info.pop("task_state", None)
         return info
 
