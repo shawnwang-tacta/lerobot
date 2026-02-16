@@ -255,7 +255,7 @@
         "use_tacta_sensor": false,
         "mask_action_as_zero": [],
         "reset_hand_on_start": true,
-        "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]],
+        "safety_bounds": [[0.65, 0.03, 0.21], [0.75, 0.13, 0.31]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
         "task_type": "FMB_INSERT"
     },
