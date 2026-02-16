@@ -308,7 +308,8 @@ def act_with_policy(
 
         else:
             action = online_env.action_space.sample() * 0.0
-        
+            action = torch.tensor(action, device=device, dtype=torch.float32).unsqueeze(0)
+
         rl_action = action
 
         if il_action_provider is not None:
@@ -323,7 +324,7 @@ def act_with_policy(
             print(f"IL action: {il_action.cpu().numpy()}, RL action: {rl_action.cpu().numpy()}, Applied action: {action.cpu().numpy()}")
         
         if cfg.env.disable_hand:
-            action[-cfg.env.hand_dof :] = 0.0
+            action[:, -cfg.env.hand_dof :] = 0.0
         
         for repeat in range(cfg.env.step_repeat):
             next_obs, reward, done, truncated, info = online_env.step(action)
