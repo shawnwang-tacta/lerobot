@@ -2254,6 +2254,9 @@ def evaluate(env, policy, cfg: HILEnvConfig):
                 if use_action_mapper:
                     action = map_action(action, action_mapper).to(cfg.device)
 
+            if cfg.disable_hand:
+                action[:, -cfg.hand_dof :] = 0.0
+
             # Step environment
             obs, reward, terminated, truncated, info = env.step(action)
 
