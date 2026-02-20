@@ -68,9 +68,13 @@ from lerobot.configs import parser
 from lerobot.scripts.rl.action_mapper_wrapper import map_action
 from lerobot.scripts.rl.action_provider_wrapper import make_il_action_provider
 from tacta.control.gym_env.flexiv_env.task_scheduler import TaskState
+from tacta_util import get_reset_action_provider
+from tacta.control.gym_env.flexiv_env.reset_action_provider import (
+    ResetActionProvider,
+    ResetActionProviderConfig,
+)
 
 logging.basicConfig(level=logging.INFO)
-
 
 def reset_follower_position(robot_arm, target_position):
     current_position_dict = robot_arm.bus.sync_read("Present_Position")
@@ -2389,7 +2393,9 @@ def main(cfg: EnvConfig):
         )
         exit()
     
-
+    reset_provider = None
+    if isinstance(cfg, HILEnvConfig):
+        reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
 
     env.reset()
 
@@ -2416,6 +2422,8 @@ def main(cfg: EnvConfig):
         obs, reward, terminated, truncated, info = env.step(smoothed_action)
         if terminated or truncated:
             successes.append(reward)
+            if reset_provider is not None:
+                reset_provider.reset_to_start_pose()
             env.reset()
             num_episode += 1
 

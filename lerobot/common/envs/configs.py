@@ -24,7 +24,10 @@ from lerobot.common.robots import RobotConfig
 from lerobot.common.teleoperators.config import TeleoperatorConfig
 from lerobot.configs.types import FeatureType, PolicyFeature
 from tacta.control.gym_env.flexiv_env.task_scheduler import TaskType
-
+from tacta.control.gym_env.flexiv_env.reset_action_provider import (
+    ResetActionProvider,
+    ResetActionProviderConfig,
+)
 @dataclass
 class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
     task: str | None = None
@@ -225,6 +228,10 @@ class TactaEnvConfig:
     reset_finger_positions: List[float] = field(default_factory=lambda: [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
 
+@dataclass
+class TactaControlLoopConfig:
+    reset_action_provider_config: ResetActionProviderConfig = field(default_factory=ResetActionProviderConfig)
+
 @EnvConfig.register_subclass(name="gym_manipulator")
 @dataclass
 class HILSerlRobotEnvConfig(EnvConfig):
@@ -288,6 +295,7 @@ class HILEnvConfig(EnvConfig):
     teleop_config: Optional[TeleoperatorConfig] = None
     wrapper: Optional[EnvTransformConfig] = None
     tacta_env_config: Optional[TactaEnvConfig] = None
+    tacta_control_loop_config: TactaControlLoopConfig = field(default_factory=TactaControlLoopConfig)
     mode: str = None  # Either "record", "replay", None
     repo_id: Optional[str] = None
     dataset_root: Optional[str] = None

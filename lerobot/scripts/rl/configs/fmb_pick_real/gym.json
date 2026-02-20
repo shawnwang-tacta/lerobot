@@ -61,6 +61,11 @@
         "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
         "robot_name": "flexiv"
     },
+    "tacta_control_loop_config": {
+        "reset_action_provider_config": {
+            "enabled": true
+        }
+    },
     "disable_hand": true,
     "name": "franka_sim",
     "mode": null,
