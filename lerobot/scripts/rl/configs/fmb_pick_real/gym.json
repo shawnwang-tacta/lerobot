@@ -58,7 +58,8 @@
         "reset_hand_on_start": true,
         "safety_bounds": [[0.17, -0.4, 0.25], [0.42, 0.0, 0.5]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "task_type": "FMB_PICK_MOVE_SINGLE_STEP"
+        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "robot_name": "flexiv"
     },
     "disable_hand": true,
     "name": "franka_sim",
