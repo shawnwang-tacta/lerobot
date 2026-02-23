@@ -237,14 +237,16 @@
         "reset_time_s": 2.0,
         "control_mode": "gamepad"
     },
+    
     "tacta_env_config": {
-        "hand_id": "hand1",
+        "hand_id": "hand3",
         "hand_type_str": "tacta_five_finger",
         "finger_names": ["thumb", "finger1", "finger2", "finger3", "finger4"],
         "finger_positions_bounds": [
             [0.0, -10.0, 0.0], 
             [60.0, 10.0, 90.0]
         ],
+        "use_pubsub": true,
         "order_pip_first": false,
         "wrist_view_camera_key": "tacta::panda::wrist_image",
         "record_mocap": false,
@@ -255,9 +257,15 @@
         "use_tacta_sensor": false,
         "mask_action_as_zero": [],
         "reset_hand_on_start": true,
-        "safety_bounds": [[0.65, 0.03, 0.21], [0.75, 0.13, 0.31]],
-        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "task_type": "FMB_INSERT"
+        "safety_bounds": [[0.35, -0.2, 0.3], [0.45, -0.1, 0.45]],
+        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "robot_name": "flexiv"
+    },
+    "tacta_control_loop_config": {
+        "reset_action_provider_config": {
+            "enabled": true
+        }
     },
     "disable_hand": true,
     "name": "franka_sim",
