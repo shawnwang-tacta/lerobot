@@ -236,8 +236,7 @@
         ],
         "reset_time_s": 2.0,
         "control_mode": "gamepad"
-    },
-    
+    }, 
     "tacta_env_config": {
         "hand_id": "hand3",
         "hand_type_str": "tacta_five_finger",
@@ -248,7 +247,7 @@
         ],
         "use_pubsub": true,
         "order_pip_first": false,
-        "wrist_view_camera_key": "tacta::panda::wrist_image",
+        "wrist_view_camera_key": "tacta::realsense::0::rgb_image",
         "record_mocap": false,
         "step_sleep_ratio": 0.9,
         "use_keyboard_label": true,
@@ -264,7 +263,15 @@
     },
     "tacta_control_loop_config": {
         "reset_action_provider_config": {
-            "enabled": true
+            "enabled": true,
+            "reset_start_pos": [0.4, -0.15, 0.4],
+            "reset_start_orientation": [-0.32, 0.65, 0.62, 0.30],
+            "reset_rotation_speed": 0.1,
+            "reset_object_release_pos": [0.4, -0.15, 0.35],
+            "reset_safe_z": 0.4,
+            "reset_move_speed": 0.05,
+            "grasp_detection_joint_indices": [4, 7],
+            "grasp_detection_threshold_deg": 10.0
         }
     },
     "disable_hand": true,
