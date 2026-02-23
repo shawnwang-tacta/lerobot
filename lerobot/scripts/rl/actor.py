@@ -93,6 +93,7 @@ from lerobot.scripts.rl import learner_service
 from lerobot.scripts.rl.action_mapper_wrapper import map_action
 from lerobot.scripts.rl.action_provider_wrapper import make_il_action_provider
 from lerobot.scripts.rl.gym_manipulator import make_robot_env
+from lerobot.scripts.rl.tacta_util import get_reset_action_provider
 
 ACTOR_SHUTDOWN_TIMEOUT = 30
 
@@ -265,6 +266,10 @@ def act_with_policy(
     if isinstance(cfg.env, HILEnvConfig) and cfg.env.enable_residual_rl:
         il_action_provider = make_il_action_provider(cfg.env.model_server_url)
 
+    reset_provider = None
+    if isinstance(cfg.env, HILEnvConfig):
+        reset_provider = get_reset_action_provider(online_env, cfg.env.tacta_control_loop_config.reset_action_provider_config)
+
     obs, info = online_env.reset()
 
     # NOTE: For the moment we will solely handle the case of a single environment
@@ -409,6 +414,10 @@ def act_with_policy(
             episode_intervention_steps = 0
             episode_total_steps = 0
             success_rate = 0.0
+
+            if reset_provider is not None:
+                reset_provider.reset_to_start_pose()
+
             obs, info = online_env.reset()
             if il_action_provider is not None:
                 il_action_provider.on_episode_start()
