@@ -1835,6 +1835,10 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             from tacta.control.gym_env.flexiv_env.arm_hand_manip_env import TactaArmHandManipEnvConfig
             from tacta.control.gym_env.flexiv_env.teleop_wrapper import ManusWrapper, ManusControllerConfig, ObservationMaskWrapper, KeyboardLabelWrapper, SpaceMouseWrapper, KeyboardActionWrapper
             from tacta.perception.tacta_sensor.tacta_sensor_processor import TactaSensorProcessorConfig
+            from tacta.control.gym_env.flexiv_env.recorder_wrapper import (
+                RecorderWrapper,
+                RecorderWrapperConfig,
+            )
             if "TactaArmHandManip" in cfg.task:
                 cfg_cls = TactaArmHandManipEnvConfig
             else:
@@ -1881,6 +1885,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             env = KeyboardActionWrapper(env)
             cfg_tacta: HILEnvConfig = cfg
             env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
+            env = RecorderWrapper(env, cfg.tacta_env_config.recorder)        
         else:
             env = gym.make(
                 f"gym_hil/{cfg.task}",
