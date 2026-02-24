@@ -274,7 +274,7 @@
             "grasp_detection_threshold_deg": 10.0
         }
     },
-    "disable_hand": true,
+    "disable_hand": false,
     "name": "franka_sim",
     "mode": null,
     "repo_id": "fmb_pick_real/2026_02_20_falguni",
