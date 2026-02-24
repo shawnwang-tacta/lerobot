@@ -8,7 +8,7 @@
     "steps": 32001,
     "log_freq": 1,
     "save_checkpoint": true,
-    "save_freq": 4000,
+    "save_freq": 2000,
     "wandb": {
         "enable": true,
         "project": "metrics_pick_real",
