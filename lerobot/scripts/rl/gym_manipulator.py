@@ -1865,6 +1865,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     max_episode_length=cfg.tacta_env_config.max_episode_length,
                     task_type=cfg.tacta_env_config.task_type,
                     reset_finger_positions=cfg.tacta_env_config.reset_finger_positions,
+                    recorder=cfg.tacta_env_config.recorder,
                 )
             )
             # env = ManusWrapper(env, ManusControllerConfig(

@@ -28,6 +28,10 @@ from tacta.control.gym_env.flexiv_env.reset_action_provider import (
     ResetActionProvider,
     ResetActionProviderConfig,
 )
+from tacta.control.gym_env.flexiv_env.recorder_wrapper import (
+    RecorderWrapper,
+    RecorderWrapperConfig,
+)
 @dataclass
 class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
     task: str | None = None
@@ -226,6 +230,7 @@ class TactaEnvConfig:
     max_episode_length: int = 100
     task_type: TaskType = TaskType.FMB_INSERT
     reset_finger_positions: List[float] = field(default_factory=lambda: [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    recorder: RecorderWrapperConfig = field(default_factory=RecorderWrapperConfig)
 
 
 @dataclass
