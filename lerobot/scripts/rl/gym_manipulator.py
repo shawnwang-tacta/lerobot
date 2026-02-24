@@ -1878,6 +1878,7 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             #         order_pip_first=cfg.tacta_env_config.order_pip_first,
             #     )
             # )
+            env = RecorderWrapper(env, cfg.tacta_env_config.recorder)
             env = TaskStateUnfoldWrapper(env)
             env = SpaceMouseWrapper(env)
             if cfg.tacta_env_config.use_keyboard_label:
@@ -1885,7 +1886,6 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
             env = KeyboardActionWrapper(env)
             cfg_tacta: HILEnvConfig = cfg
             env = ObservationMaskWrapper(env, mask_tactile=cfg_tacta.mask_tactile, mask_image_keys=cfg_tacta.mask_image_keys, mask_shear=cfg_tacta.mask_shear)
-            env = RecorderWrapper(env, cfg.tacta_env_config.recorder)        
         else:
             env = gym.make(
                 f"gym_hil/{cfg.task}",
