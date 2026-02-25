@@ -190,7 +190,7 @@ class EnvTransformConfig:
     crop_params_dict: Optional[dict[str, tuple[int, int, int, int]]] = None
     resize_size: Optional[tuple[int, int]] = None
     control_time_s: float = 20.0
-    fixed_reset_joint_positions: Optional[Any] = None
+    fixed_reset_joint_positions: List[float] = field(default_factory=list)
     reset_time_s: float = 5.0
     use_gripper: bool = True
     gripper_quantization_threshold: float | None = 0.8
@@ -300,7 +300,7 @@ class HILEnvConfig(EnvConfig):
     teleop_config: Optional[TeleoperatorConfig] = None
     wrapper: Optional[EnvTransformConfig] = None
     tacta_env_config: Optional[TactaEnvConfig] = None
-    tacta_control_loop_config: TactaControlLoopConfig = field(default_factory=TactaControlLoopConfig)
+    tacta_control_loop_config: Optional[TactaControlLoopConfig] = None
     mode: str = None  # Either "record", "replay", None
     repo_id: Optional[str] = None
     dataset_root: Optional[str] = None
