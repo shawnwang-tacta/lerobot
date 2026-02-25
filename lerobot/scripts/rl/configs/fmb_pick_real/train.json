@@ -263,7 +263,7 @@
         "recorder": {
             "enabled": true,
             "station": "ROBOT_STATION_REAL",
-            "output_dir": "./recordings/fmb_pick_real/session_rl"
+            "output_dir": "./recordings/fmb_pick_real/session_rl_001"
         }
     },
     "tacta_control_loop_config": {
