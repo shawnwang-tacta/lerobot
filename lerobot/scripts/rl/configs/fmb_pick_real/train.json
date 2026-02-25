@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "fmb_pick_real/2026_02_20_falguni",
+        "repo_id": "fmb_pick_real_downsampled/2026_02_20_falguni",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -281,7 +281,7 @@
     "disable_hand": false,
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "fmb_pick_real/2026_02_20_falguni",
+    "repo_id": "fmb_pick_real_downsampled/2026_02_20_falguni",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
