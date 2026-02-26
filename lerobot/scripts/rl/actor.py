@@ -379,6 +379,7 @@ def act_with_policy(
             update_policy_parameters(policy=policy.actor, parameters_queue=parameters_queue, device=device)
 
             if len(list_transition_to_send_to_learner) > 0:
+                print(f"[ACTOR] Sending {len(list_transition_to_send_to_learner)} transitions to learner")
                 push_transitions_to_transport_queue(
                     transitions=list_transition_to_send_to_learner,
                     transitions_queue=transitions_queue,
@@ -597,6 +598,7 @@ def send_transitions(
         )
 
     try:
+        print(f"[ACTOR] Start sending transitions to the Learner len(transitions_queue)={transitions_queue.qsize()}")
         learner_client.SendTransitions(
             transitions_stream(
                 shutdown_event, transitions_queue, cfg.policy.actor_learner_config.queue_get_timeout

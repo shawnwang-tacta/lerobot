@@ -1200,6 +1200,7 @@ def process_transitions(
         dataset_repo_id: Repository ID for dataset
         shutdown_event: Event to signal shutdown
     """
+    print(f"[LEARNER] Checking for transitions in the queue... Queue size: {transition_queue.qsize()}")
     while not transition_queue.empty() and not shutdown_event.is_set():
         transition_list = transition_queue.get()
         transition_list = bytes_to_transitions(buffer=transition_list)
