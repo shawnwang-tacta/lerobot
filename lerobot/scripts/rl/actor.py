@@ -331,6 +331,7 @@ def act_with_policy(
         if cfg.env.disable_hand:
             action[:, -cfg.env.hand_dof :] = 0.0
         
+        action *= 0.0
         for repeat in range(cfg.env.step_repeat):
             next_obs, reward, done, truncated, info = online_env.step(action)
         

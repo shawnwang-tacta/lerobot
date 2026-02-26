@@ -61,9 +61,7 @@
         "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
         "robot_name": "flexiv",
         "recorder": {
-            "enabled": true,
-            "station": "ROBOT_STATION_REAL",
-            "output_dir": "./recordings/fmb_pick_real/session_rl"
+            "enabled": true
         }
     },
     "tacta_control_loop_config": {
