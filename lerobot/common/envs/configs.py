@@ -225,7 +225,7 @@ class TactaEnvConfig:
     init_arm_pose: List[float] = field(
         default_factory=lambda: [0.30017018, -0.0517053, 0.20003024, 0.0442446, 0.85820109, 0.04218654, 0.50966024]
     )
-    env_step_dt: float = 0.09
+    env_step_dt: float = 0.04
     # for policy with 10 fps, max time is 10 seconds
     max_episode_length: int = 100
     task_type: TaskType = TaskType.FMB_INSERT
