@@ -331,9 +331,14 @@ def act_with_policy(
         if cfg.env.disable_hand:
             action[:, -cfg.env.hand_dof :] = 0.0
         
+        start_repeat_time = time.perf_counter()
         for repeat in range(cfg.env.step_repeat):
             next_obs, reward, done, truncated, info = online_env.step(action)
-        
+            elapsed_time = time.perf_counter() - start_repeat_time
+            if cfg.env.fps is not None and elapsed_time < 1 / cfg.env.fps:
+                time.sleep(1 / cfg.env.fps - elapsed_time)
+            start_repeat_time = time.perf_counter()
+
         il_ratio = max(0, il_ratio - il_ratio_decay)
         # print(f"iteraction step {interaction_step} IL ratio: {il_ratio:.4f}")
 
