@@ -114,7 +114,7 @@ def unmap_action(action_tensor: torch.Tensor, action_mapper) -> torch.Tensor:
     action_arm_pos = action_np[:, :3]
     action_hand = action_np[:, 6:]
     action_hand_policy = action_mapper.unmap(action_hand)
-    action_mapped_np = np.concatenate([action_arm_pos, action_hand_policy * 10.0], axis=1)
+    action_mapped_np = np.concatenate([action_arm_pos, action_hand_policy], axis=1)
     return torch.Tensor(action_mapped_np)
 
 
