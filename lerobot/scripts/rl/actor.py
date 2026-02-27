@@ -335,8 +335,8 @@ def act_with_policy(
         for repeat in range(cfg.env.step_repeat):
             next_obs, reward, done, truncated, info = online_env.step(action)
             elapsed_time = time.perf_counter() - start_repeat_time
-            if cfg.env.fps is not None and elapsed_time < 1 / cfg.env.fps:
-                time.sleep(1 / cfg.env.fps - elapsed_time)
+            if cfg.env.fps is not None and elapsed_time < 1 / cfg.env.fps / cfg.env.step_repeat:
+                time.sleep(1 / cfg.env.fps / cfg.env.step_repeat - elapsed_time)
             start_repeat_time = time.perf_counter()
 
         il_ratio = max(0, il_ratio - il_ratio_decay)
