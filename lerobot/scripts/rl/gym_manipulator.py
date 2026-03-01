@@ -2061,6 +2061,9 @@ def record_dataset(env, policy, cfg):
     
     if "TactaArmHandManip" in cfg.task:
         action_names = ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z"] + action_names
+    
+    if cfg.action_names is not None:
+        action_names = cfg.action_names
 
     # Configure dataset features based on environment spaces
     features = {

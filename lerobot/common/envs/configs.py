@@ -294,6 +294,7 @@ class HILEnvConfig(EnvConfig):
             "observation.state": OBS_STATE,
         }
     )
+    action_names: Optional[List[str]] = None
     ################# args from hilserlrobotenv
     reward_classifier_pretrained_path: Optional[str] = None
     robot_config: Optional[RobotConfig] = None
