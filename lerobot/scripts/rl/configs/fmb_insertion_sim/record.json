@@ -57,13 +57,15 @@
         "reset_hand_on_start": true,
         "safety_bounds": [[0.65, 0.03, 0.21], [0.75, 0.13, 0.31]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "task_type": "FMB_INSERT"
+        "task_type": "FMB_INSERT",
+        "env_step_dt": 0.3,
+        "max_episode_length": 50
     },
     "disable_hand": true,
     "action_names": ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z", "hand_joint_0", "hand_joint_1", "hand_joint_2", "hand_joint_3", "hand_joint_4", "hand_joint_5", "hand_joint_6", "hand_joint_7", "hand_joint_8", "hand_joint_9", "hand_joint_10", "hand_joint_11", "hand_joint_12", "hand_joint_13", "hand_joint_14"],
     "name": "franka_sim",
     "mode": "record",
-    "repo_id": "wx405557858/test_insertion_sim",
+    "repo_id": "wx405557858/test_insertion_sim_1",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 2,
