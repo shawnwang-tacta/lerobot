@@ -330,6 +330,8 @@ def act_with_policy(
         
         if cfg.env.disable_hand:
             action[:, -cfg.env.hand_dof :] = 0.0
+
+        print(f"interaction step {interaction_step} action: {action.cpu().numpy()}")
         
         start_repeat_time = time.perf_counter()
         for repeat in range(cfg.env.step_repeat):

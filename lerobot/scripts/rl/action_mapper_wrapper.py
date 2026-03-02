@@ -8,7 +8,7 @@ def map_action(action: torch.Tensor, action_mapper):
     action_arm_pos = action_np[:3]
     action_arm_ori = np.zeros_like(action_arm_pos)
     action_hand = action_np[[3]]
-    action_hand_mapped = action_mapper.map(action_hand / 10.0)
+    action_hand_mapped = action_mapper.map(action_hand)
     action_mapped_np = np.concatenate([action_arm_pos, action_arm_ori, action_hand_mapped])
     action = torch.Tensor(action_mapped_np).unsqueeze(0)
     return action
