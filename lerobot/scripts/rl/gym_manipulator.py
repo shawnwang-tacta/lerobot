@@ -2149,6 +2149,7 @@ def record_dataset(env, policy, cfg):
 
             # Add frame to dataset - continue marking as success even during extra collection steps
             frame = {**obs_processed, **recorded_action}
+            print(f"recorded_action: {recorded_action}")
 
             # If we're in the success collection phase, keep marking rewards as 1.0
             if success_detected:

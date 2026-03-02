@@ -538,7 +538,7 @@ def add_actor_information_and_train(
             "critic_grad_norm": critic_grad_norm,
         }
 
-        if cfg.policy.use_imitation_learning:
+        if cfg.policy.use_imitation_learning and cfg.policy.imitation_learning_weight > 0.0:
             predicted_action, imitation_learning_loss = policy.forward_imitation_learning(
                 observations,
                 actions,

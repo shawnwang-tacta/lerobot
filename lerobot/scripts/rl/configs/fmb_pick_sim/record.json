@@ -65,7 +65,7 @@
     "action_names": ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z", "hand_joint_0", "hand_joint_1", "hand_joint_2", "hand_joint_3", "hand_joint_4", "hand_joint_5", "hand_joint_6", "hand_joint_7", "hand_joint_8", "hand_joint_9", "hand_joint_10", "hand_joint_11", "hand_joint_12", "hand_joint_13", "hand_joint_14"],
     "name": "franka_sim",
     "mode": "record",
-    "repo_id": "wx405557858/test_pick_sim_0",
+    "repo_id": "wx405557858/test_pick_sim_1",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 100,
