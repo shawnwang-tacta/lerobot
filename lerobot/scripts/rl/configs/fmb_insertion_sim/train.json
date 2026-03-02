@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "shawn_fmb_insertion_3/shawn_fmb_insertion_3",
+        "repo_id": "wx405557858/test_insertion_sim_1",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -257,12 +257,14 @@
         "reset_hand_on_start": true,
         "safety_bounds": [[0.65, 0.03, 0.21], [0.75, 0.13, 0.31]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "task_type": "FMB_INSERT"
+        "task_type": "FMB_INSERT",
+        "env_step_dt": 0.3,
+        "max_episode_length": 50
     },
     "disable_hand": true,
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "shawn_fmb_insertion_3/shawn_fmb_insertion_3",
+    "repo_id": "wx405557858/test_insertion_sim_1",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
@@ -270,8 +272,8 @@
     "pretrained_policy_name_or_path": null,
     "device": "cuda",
     "push_to_hub": false,
-    "fps": 2,
-    "step_repeat": 5,
+    "fps": 10,
+    "step_repeat": 1,
     "features": {
         "observation.images.front": {
             "type": "VISUAL",

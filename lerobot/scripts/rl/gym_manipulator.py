@@ -2403,7 +2403,7 @@ def main(cfg: EnvConfig):
         exit()
     
     reset_provider = None
-    if isinstance(cfg, HILEnvConfig):
+    if isinstance(cfg, HILEnvConfig) and cfg.tacta_control_loop_config is not None:
         reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
 
     env.reset()

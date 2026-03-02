@@ -267,7 +267,7 @@ def act_with_policy(
         il_action_provider = make_il_action_provider(cfg.env.model_server_url)
 
     reset_provider = None
-    if isinstance(cfg.env, HILEnvConfig):
+    if isinstance(cfg.env, HILEnvConfig) and cfg.env.tacta_control_loop_config is not None:
         reset_provider = get_reset_action_provider(online_env, cfg.env.tacta_control_loop_config.reset_action_provider_config)
 
     obs, info = online_env.reset()
