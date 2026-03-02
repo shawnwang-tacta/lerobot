@@ -231,6 +231,7 @@ class TactaEnvConfig:
     task_type: TaskType = TaskType.FMB_INSERT
     reset_finger_positions: List[float] = field(default_factory=lambda: [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     recorder: RecorderWrapperConfig = field(default_factory=RecorderWrapperConfig)
+    continuous_success_steps: int = 10
 
 
 @dataclass
@@ -322,7 +323,7 @@ class HILEnvConfig(EnvConfig):
     il_ratio_max: float = 1.0  # Maximum IL ratio at the start of training
     il_action_chunk_scale: float = 1.2 # Scale for IL action chunk averaging
 
-    enable_residual_rl: bool = True
+    enable_residual_rl: bool = False
     model_server_url: str = "http://localhost:8000/predict"
     hand_dof: int = 15
     disable_hand: bool = False

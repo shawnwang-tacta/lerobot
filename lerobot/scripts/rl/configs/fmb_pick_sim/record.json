@@ -39,8 +39,8 @@
     },
     "tacta_env_config": {
         "hand_id": "hand1",
-        "hand_type_str": "tacta_three_finger",
-        "finger_names": ["finger1", "finger2", "finger3"],
+        "hand_type_str": "tacta_five_finger",
+        "finger_names": ["thumb", "finger1", "finger2", "finger3", "finger4"],
         "finger_positions_bounds": [
             [0.0, -10.0, 0.0], 
             [60.0, 10.0, 90.0]
@@ -50,16 +50,22 @@
         "record_mocap": false,
         "step_sleep_ratio": 0.9,
         "use_keyboard_label": true,
-        "tactile_min": 0.0,
-        "tactile_max": -5.0,
+        "tactile_min": -30.0,
+        "tactile_max": 30.0,
         "use_tacta_sensor": false,
-        "tasks": ["reach the airpods case", "open the airpods case"],
-        "mask_action_as_zero": [1],
-        "reset_hand_on_start": false
+        "mask_action_as_zero": [],
+        "reset_hand_on_start": true,
+        "safety_bounds": [[0.6, -0.1, 0.15], [0.8, 0.1, 0.35]],
+        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "env_step_dt": 0.3,
+        "max_episode_length": 50,
+        "continuous_success_steps": 3
     },
+    "action_names": ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z", "hand_joint_0", "hand_joint_1", "hand_joint_2", "hand_joint_3", "hand_joint_4", "hand_joint_5", "hand_joint_6", "hand_joint_7", "hand_joint_8", "hand_joint_9", "hand_joint_10", "hand_joint_11", "hand_joint_12", "hand_joint_13", "hand_joint_14"],
     "name": "franka_sim",
     "mode": "record",
-    "repo_id": "wx405557858/reach_open_articulated_0",
+    "repo_id": "wx405557858/test_pick_sim_0",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 60,
@@ -90,13 +96,13 @@
         "observation.state": {
             "type": "STATE",
             "shape": [
-                110
+                230
             ]
         },
         "action": {
             "type": "ACTION",
             "shape": [
-                9
+                21
             ]
         }
     },
