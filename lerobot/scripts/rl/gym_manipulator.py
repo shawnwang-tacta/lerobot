@@ -2107,6 +2107,10 @@ def record_dataset(env, policy, cfg):
         features=features,
     )
 
+    reset_provider = None
+    if isinstance(cfg, HILEnvConfig) and cfg.tacta_control_loop_config is not None:
+        reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
+
     # Record episodes
     episode_index = 0
     recorded_action = None
@@ -2191,6 +2195,8 @@ def record_dataset(env, policy, cfg):
 
         dataset.save_episode()
         episode_index += 1
+        if reset_provider is not None:
+            reset_provider.reset_to_start_pose()
 
     # Finalize dataset
     # dataset.consolidate(run_compute_stats=True)
