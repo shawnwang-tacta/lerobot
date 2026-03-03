@@ -2248,6 +2248,9 @@ def evaluate(env, policy, cfg: HILEnvConfig):
     if isinstance(cfg, HILEnvConfig) and cfg.tacta_control_loop_config is not None:
         reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
 
+    if reset_provider is not None:
+        reset_provider.reset_to_start_pose()
+
     episode_index = 0
     while episode_index < cfg.num_episodes:
         obs, _ = env.reset()
@@ -2283,6 +2286,9 @@ def evaluate(env, policy, cfg: HILEnvConfig):
                 action[:, -cfg.hand_dof :] = 0.0
 
             # Step environment
+            # TODO: remove after increasing lighting robustness
+            action[:, :] *= 1.2
+            action[:, 2] -= 0.5
             obs, reward, terminated, truncated, info = env.step(action)
 
             # Check if episode needs to be rerecorded
@@ -2292,15 +2298,15 @@ def evaluate(env, policy, cfg: HILEnvConfig):
             tau_fingers.append(info.get("tau_fingers", 0.0))
 
             # Check if we've just detected success
-            if reward >= 1.0 and not success_detected:
+            if terminated:
                 success_detected = True
                 logging.info("Success detected! Collecting additional success states.")
 
             # Only mark as done if we're truly done (reached end or collected enough success states)
             really_done = terminated or truncated
-            if success_detected:
-                success_steps_collected += 1
-                really_done = success_steps_collected >= cfg.number_of_steps_after_success
+            # if success_detected:
+            #     success_steps_collected += 1
+            #     really_done = success_steps_collected >= cfg.number_of_steps_after_success
 
             # Maintain consistent timing
             if cfg.fps:
@@ -2308,7 +2314,7 @@ def evaluate(env, policy, cfg: HILEnvConfig):
                 busy_wait(1 / cfg.fps - dt_s)
 
             # Check if we should end the episode
-            if (terminated or truncated) and not success_detected:
+            if (terminated or truncated):
                 # Regular termination without success
                 break
             elif success_detected and success_steps_collected >= cfg.number_of_steps_after_success:

@@ -64,7 +64,7 @@
         "recorder": {
             "enabled": true
         },
-        "env_step_dt": 0.3,
+        "env_step_dt": 0.2,
         "max_episode_length": 50,
         "continuous_success_steps": 3
     },
