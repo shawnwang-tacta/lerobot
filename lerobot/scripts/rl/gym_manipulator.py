@@ -2244,6 +2244,10 @@ def evaluate(env, policy, cfg: HILEnvConfig):
     if cfg.enable_residual_rl:
         il_action_provider = make_il_action_provider(cfg.model_server_url)
 
+    reset_provider = None
+    if isinstance(cfg, HILEnvConfig) and cfg.tacta_control_loop_config is not None:
+        reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
+
     episode_index = 0
     while episode_index < cfg.num_episodes:
         obs, _ = env.reset()
@@ -2325,6 +2329,9 @@ def evaluate(env, policy, cfg: HILEnvConfig):
         print(f"{np.mean(evaluation_metrics['success_list']):.2f} ({np.sum(evaluation_metrics['success_list'])} / {len(evaluation_metrics['success_list'])})", end="\t")
         print(f"{np.mean(evaluation_metrics['episode_durations']):.2f} (+/- {np.std(evaluation_metrics['episode_durations']):.2f}) s", end="\t")
         print(f"{np.mean(evaluation_metrics['mean_tau_fingers']):.2f} (+/- {np.std(evaluation_metrics['mean_tau_fingers']):.2f})")
+
+        if reset_provider is not None:
+            reset_provider.reset_to_start_pose()
 
 def replay_episode(env, cfg):
     """
