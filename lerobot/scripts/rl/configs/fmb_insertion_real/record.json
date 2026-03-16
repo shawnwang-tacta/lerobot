@@ -1,0 +1,135 @@
+{
+    "type": "hil",
+    "wrapper": {
+        "gripper_penalty": -0.02,
+        "display_cameras": false,
+        "add_joint_velocity_to_observation": true,
+        "add_ee_pose_to_observation": true,
+        "crop_params_dict": {
+            "observation.images.front": [
+                0,
+                0,
+                128,
+                128
+            ],
+            "observation.images.wrist": [
+                0,
+                0,
+                128,
+                128
+            ]
+        },
+        "resize_size": [
+            128,
+            128
+        ],
+        "control_time_s": 15.0,
+        "use_gripper": false,
+        "fixed_reset_joint_positions": [
+            0.0,
+            0.195,
+            0.0,
+            -2.43,
+            0.0,
+            2.62,
+            0.785
+        ],
+        "reset_time_s": 2.0,
+        "control_mode": "gamepad"
+    },
+    "tacta_env_config": {
+        "hand_id": "hand3",
+        "hand_type_str": "tacta_five_finger",
+        "finger_names": ["thumb", "finger1", "finger2", "finger3", "finger4"],
+        "finger_positions_bounds": [
+            [0.0, -10.0, 0.0], 
+            [60.0, 10.0, 90.0]
+        ],
+        "use_pubsub": true,
+        "order_pip_first": false,
+        "wrist_view_camera_key": "tacta::realsense::0::rgb_image",
+        "record_mocap": false,
+        "step_sleep_ratio": 0.9,
+        "use_keyboard_label": true,
+        "tactile_min": -30.0,
+        "tactile_max": 30.0,
+        "use_tacta_sensor": false,
+        "mask_action_as_zero": [],
+        "reset_hand_on_start": true,
+        "safety_bounds": [[0.35, -0.2, 0.3], [0.45, -0.1, 0.42]],
+        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "robot_name": "flexiv",
+        "recorder": {
+            "enabled": true
+        },
+        "env_step_dt": 0.3,
+        "max_episode_length": 300,
+        "continuous_success_steps": 3
+    },
+    "tacta_control_loop_config": {
+        "reset_action_provider_config": {
+            "enabled": true,
+            "reset_start_pos": [0.4, -0.15, 0.35],
+            "reset_start_orientation": [-0.32, 0.65, 0.62, 0.32],
+            "reset_rotation_speed": 0.1,
+            "reset_object_release_pos": [0.4, -0.15, 0.32],
+            "reset_safe_z": 0.35,
+            "reset_move_speed": 0.05,
+            "grasp_detection_joint_indices": [4, 7],
+            "grasp_detection_threshold_deg": 10.0
+        }
+    },
+    "action_names": ["dpos_x", "dpos_y", "dpos_z", "drot_x", "drot_y", "drot_z", "hand_joint_0", "hand_joint_1", "hand_joint_2", "hand_joint_3", "hand_joint_4", "hand_joint_5", "hand_joint_6", "hand_joint_7", "hand_joint_8", "hand_joint_9", "hand_joint_10", "hand_joint_11", "hand_joint_12", "hand_joint_13", "hand_joint_14"],
+    "disable_hand": false,
+    "name": "franka_sim",
+    "mode": "record",
+    "repo_id": "wx405557858/pick_real_lerobot_2",
+    "dataset_root": null,
+    "task": "TactaArmHandManip-v0",
+    "num_episodes": 200,
+    "number_of_steps_after_success": 10,
+    "episode": 0,
+    "pretrained_policy_name_or_path": null,
+    "mask_shear": false,
+    "device": "cpu",
+    "push_to_hub": true,
+    "fps": 10,
+    "features": {
+        "observation.images.front": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.images.wrist": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.state": {
+            "type": "STATE",
+            "shape": [
+                230
+            ]
+        },
+        "action": {
+            "type": "ACTION",
+            "shape": [
+                21
+            ]
+        }
+    },
+    "features_map": {
+        "observation.images.front": "observation.images.front",
+        "observation.images.wrist": "observation.images.wrist",
+        "observation.state": "observation.state",
+        "action": "action"
+    },
+    "reward_classifier_pretrained_path": null
+}

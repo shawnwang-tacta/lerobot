@@ -1,0 +1,334 @@
+{    
+    "output_dir": null,
+    "job_name": "default",
+    "resume": false,
+    "seed": 1000,
+    "num_workers": 4,
+    "batch_size": 256,
+    "steps": 32001,
+    "log_freq": 1,
+    "save_checkpoint": true,
+    "save_freq": 2000,
+    "wandb": {
+        "enable": true,
+        "project": "metrics_pick_real",
+        "disable_artifact": true
+    },
+    "dataset": {
+        "repo_id": "fmb_pick_real/2026_03_05_rl_mcap",
+        "use_imagenet_stats": false
+    },
+    "policy": {
+        "type": "sac",
+        "n_obs_steps": 1,
+        "normalization_mapping": {
+            "VISUAL": "MEAN_STD",
+            "STATE": "MIN_MAX",
+            "ENV": "MIN_MAX",
+            "ACTION": "MIN_MAX"
+        },
+        "input_features": {
+            "observation.images.front": {
+                "type": "VISUAL",
+                "shape": [
+                    3,
+                    128,
+                    128
+                ]
+            },
+            "observation.images.wrist": {
+                "type": "VISUAL",
+                "shape": [
+                    3,
+                    128,
+                    128
+                ]
+            },
+            "observation.state": {
+                "type": "STATE",
+                "shape": [
+                    230
+                ]
+            }
+        },
+        "output_features": {
+            "action": {
+                "type": "ACTION",
+                "shape": [
+                    4
+                ]
+            }
+        },
+        "device": "cuda",
+        "use_amp": false,
+        "dataset_stats": {
+            "observation.images.front": {
+                "mean": [
+                    0.485,
+                    0.456,
+                    0.406
+                ],
+                "std": [
+                    0.229,
+                    0.224,
+                    0.225
+                ]
+            },
+            "observation.images.wrist": {
+                "mean": [
+                    0.485,
+                    0.456,
+                    0.406
+                ],
+                "std": [
+                    0.229,
+                    0.224,
+                    0.225
+                ]
+            },
+            "observation.state": {
+                "min": [
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+                    -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0
+                ],
+                "max": [
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                    1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
+                ]
+            },
+            "action": {
+                "min": [-1.0, -1.0, -1.0, -1.0],
+                "max": [1.0, 1.0, 1.0, 1.0]
+            }
+        },
+        "storage_device": "cpu",
+        "vision_encoder_name": "helper2424/resnet10",
+        "freeze_vision_encoder": true,
+        "image_encoder_hidden_dim": 32,
+        "shared_encoder": true,
+        "online_steps": 1000000,
+        "online_env_seed": 10000,
+        "online_buffer_capacity": 50000,
+        "offline_buffer_capacity": 120000,
+        "online_step_before_learning": 20,
+        "policy_update_freq": 1,
+        "discount": 0.97,
+        "temperature_init": 0.01,
+        "num_critics": 2,
+        "num_subsample_critics": null,
+        "critic_lr": 0.0003,
+        "actor_lr": 0.0003,
+        "temperature_lr": 0.0003,
+        "critic_target_update_weight": 0.005,
+        "utd_ratio": 5,
+        "state_encoder_hidden_dim": 256,
+        "latent_dim": 64,
+        "target_entropy": null,
+        "use_backup_entropy": true,
+        "grad_clip_norm": 10.0,
+        "num_discrete_actions": null,
+        "critic_network_kwargs": {
+            "hidden_dims": [
+                256,
+                256
+            ],
+            "activate_final": true,
+            "final_activation": null
+        },
+        "actor_network_kwargs": {
+            "hidden_dims": [
+                256,
+                256
+            ],
+            "activate_final": true
+        },
+        "policy_kwargs": {
+            "use_tanh_squash": true,
+            "std_min": 1e-5,
+            "std_max": 5,
+            "init_final": 0.05
+        },
+        "actor_learner_config": {
+            "learner_host": "127.0.0.1",
+            "learner_port": 50051,
+            "policy_parameters_push_frequency": 4
+        },
+        "concurrency": {
+            "actor": "threads",
+            "learner": "threads"
+        }
+    },
+    "env": {
+    "type": "hil",
+    "enable_residual_rl": false,
+    "mask_tactile": false,
+    "mask_shear": false,
+    "mask_image_keys": [
+    ],
+    "wrapper": {
+        "gripper_penalty": -0.02,
+        "display_cameras": false,
+        "add_joint_velocity_to_observation": true,
+        "add_ee_pose_to_observation": true,
+        "crop_params_dict": {
+            "observation.images.front": [
+                0,
+                0,
+                128,
+                128
+            ],
+            "observation.images.wrist": [
+                0,
+                0,
+                128,
+                128
+            ]
+        },
+        "resize_size": [
+            128,
+            128
+        ],
+        "control_time_s": 15.0,
+        "fixed_reset_joint_positions": [
+            0.0,
+            0.195,
+            0.0,
+            -2.43,
+            0.0,
+            2.62,
+            0.785
+        ],
+        "reset_time_s": 2.0,
+        "control_mode": "gamepad"
+    },
+    "tacta_env_config": {
+        "hand_id": "hand3",
+        "hand_type_str": "tacta_five_finger",
+        "finger_names": ["thumb", "finger1", "finger2", "finger3", "finger4"],
+        "finger_positions_bounds": [
+            [0.0, -10.0, 0.0], 
+            [60.0, 10.0, 90.0]
+        ],
+        "use_pubsub": true,
+        "order_pip_first": false,
+        "wrist_view_camera_key": "tacta::realsense::0::rgb_image",
+        "record_mocap": false,
+        "step_sleep_ratio": 0.9,
+        "use_keyboard_label": true,
+        "tactile_min": -30.0,
+        "tactile_max": 30.0,
+        "use_tacta_sensor": false,
+        "mask_action_as_zero": [],
+        "reset_hand_on_start": true,
+        "safety_bounds": [[0.35, -0.2, 0.3], [0.45, -0.1, 0.42]],
+        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "robot_name": "flexiv",
+        "recorder": {
+            "enabled": true
+        },
+        "env_step_dt": 0.3,
+        "max_episode_length": 50,
+        "continuous_success_steps": 3
+    },
+    "tacta_control_loop_config": {
+        "reset_action_provider_config": {
+            "enabled": true,
+            "reset_start_pos": [0.4, -0.15, 0.35],
+            "reset_start_orientation": [-0.32, 0.65, 0.62, 0.32],
+            "reset_rotation_speed": 0.1,
+            "reset_object_release_pos": [0.4, -0.15, 0.34],
+            "reset_safe_z": 0.35,
+            "reset_move_speed": 0.05,
+            "grasp_detection_joint_indices": [4, 7],
+            "grasp_detection_threshold_deg": 10.0
+        }
+    },
+    "disable_hand": false,
+    "name": "franka_sim",
+    "mode": null,
+    "repo_id": "fmb_pick_real/2026_03_05_rl_mcap",
+    "dataset_root": null,
+    "task": "TactaArmHandManip-v0",
+    "num_episodes": 30,
+    "episode": 0,
+    "pretrained_policy_name_or_path": null,
+    "device": "cuda",
+    "push_to_hub": false,
+    "fps": 10,
+    "step_repeat": 1,
+    "features": {
+        "observation.images.front": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.images.wrist": {
+            "type": "VISUAL",
+            "shape": [
+                3,
+                128,
+                128
+            ]
+        },
+        "observation.state": {
+            "type": "STATE",
+            "shape": [
+                230
+            ]
+        },
+        "action": {
+            "type": "ACTION",
+            "shape": [
+                4
+            ]
+        }
+    },
+    "features_map": {
+        "observation.images.front": "observation.images.front",
+        "observation.images.wrist": "observation.images.wrist",
+        "observation.state": "observation.state",
+        "action": "action"
+    },
+    "reward_classifier_pretrained_path": null
+}
+}
