@@ -58,11 +58,14 @@
         "reset_hand_on_start": true,
         "safety_bounds": [[0.35, -0.2, 0.3], [0.45, -0.1, 0.42]],
         "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "task_type": "FMB_PICK_MOVE_SINGLE_STEP",
+        "task_type": "FMB_INSERT",
         "robot_name": "flexiv",
         "recorder": {
             "enabled": true
-        }
+        },
+        "env_step_dt": 0.3,
+        "max_episode_length": 50,
+        "continuous_success_steps": 3
     },
     "tacta_control_loop_config": {
         "reset_action_provider_config": {
