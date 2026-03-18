@@ -1855,11 +1855,6 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     record_mocap=cfg.tacta_env_config.record_mocap,
                     use_tacta_sensor=cfg.tacta_env_config.use_tacta_sensor,
                     mask_action_as_zero=cfg.tacta_env_config.mask_action_as_zero,
-                    tacta_sensor_processor_config=TactaSensorProcessorConfig(
-                        calibration_file=cfg.tacta_env_config.tacta_sensor_calibration_file,
-                        tactile_6d_min=cfg.tacta_env_config.tactile_min,
-                        tactile_6d_max=cfg.tacta_env_config.tactile_max,
-                    ),
                     reset_hand_on_start=cfg.tacta_env_config.reset_hand_on_start,
                     # For arm environments:
                     robot_name=cfg.tacta_env_config.robot_name,
@@ -1871,6 +1866,10 @@ def make_robot_env(cfg: EnvConfig) -> gym.Env:
                     reset_finger_positions=cfg.tacta_env_config.reset_finger_positions,
                     recorder=cfg.tacta_env_config.recorder,
                     continuous_success_steps=cfg.tacta_env_config.continuous_success_steps,
+                    tactile_sensor_keys=cfg.tacta_env_config.tactile_sensor_keys,
+                    tactile_shape=cfg.tacta_env_config.tactile_shape,
+                    is_2d_array=cfg.tacta_env_config.is_2d_array,
+                    tacta_sensor_processor_config=cfg.tacta_env_config.tacta_sensor_processor_config,
                 )
             )
             # env = ManusWrapper(env, ManusControllerConfig(

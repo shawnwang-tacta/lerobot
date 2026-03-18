@@ -14,7 +14,7 @@
 
 import abc
 from dataclasses import dataclass, field
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple
 
 import draccus
 import numpy as np
@@ -31,6 +31,9 @@ from tacta.control.gym_env.flexiv_env.reset_action_provider import (
 from tacta.control.gym_env.flexiv_env.recorder_wrapper import (
     RecorderWrapper,
     RecorderWrapperConfig,
+)
+from tacta.perception.tacta_sensor.tacta_sensor_processor import (
+    TactaSensorProcessorConfig,
 )
 @dataclass
 class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
@@ -232,6 +235,21 @@ class TactaEnvConfig:
     reset_finger_positions: List[float] = field(default_factory=lambda: [0.0, 50.0, 0.0, 0.0, 70.0, 0.0, 0.0, 70.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     recorder: RecorderWrapperConfig = field(default_factory=RecorderWrapperConfig)
     continuous_success_steps: int = 10
+    tactile_sensor_keys: List[str] = field(
+        default_factory=lambda: [
+            "tacta::panda::tactile_thumb",
+            "tacta::panda::tactile_index",
+            "tacta::panda::tactile_middle",
+        ]
+    )
+    tactile_shape: Tuple[int, int] = (8, 8)
+    is_2d_array: bool = False  # Whether to expand tactile data to have a channel dimension
+    tacta_sensor_processor_config: TactaSensorProcessorConfig = TactaSensorProcessorConfig(
+        # relative path from "lib_py/tacta/perception/tacta_sensor/"
+        calibration_file="calibration/2025-10-02__09-23-47__L1P0037_cal.csv",
+        tactile_6d_min=-30.0,
+        tactile_6d_max=30.0,
+    )
 
 
 @dataclass

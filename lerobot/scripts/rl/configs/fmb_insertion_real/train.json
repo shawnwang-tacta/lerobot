@@ -266,7 +266,18 @@
         },
         "env_step_dt": 0.3,
         "max_episode_length": 50,
-        "continuous_success_steps": 3
+        "continuous_success_steps": 3,
+        "tactile_sensor_keys": [
+            "tacta::glove::rpps::thumb",
+            "tacta::glove::rpps::finger1",
+            "tacta::glove::rpps::finger2"
+        ],
+        "tactile_shape": [6, 6],
+        "is_2d_array": true,
+        "tacta_sensor_processor_config": {
+            "tactile_6d_min": 0.0,
+            "tactile_6d_max": 300.0
+        }
     },
     "tacta_control_loop_config": {
         "reset_action_provider_config": {
