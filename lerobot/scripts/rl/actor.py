@@ -424,7 +424,11 @@ def act_with_policy(
             success_rate = 0.0
 
             if reset_provider is not None:
-                reset_provider.reset_to_start_pose()
+                # reset_provider.reset_to_start_pose()
+                reset_provider.reset(
+                    info["task_state.task_id"],
+                    control_dt=1.0/cfg.env.fps,
+                )
 
             obs, info = online_env.reset()
             if il_action_provider is not None:

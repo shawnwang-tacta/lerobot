@@ -2453,7 +2453,10 @@ def main(cfg: EnvConfig):
         if terminated or truncated:
             successes.append(reward)
             if reset_provider is not None:
-                reset_provider.reset_to_start_pose()
+                reset_provider.reset(
+                    info["task_state.task_id"],
+                    control_dt=1.0/cfg.fps,
+                )
             env.reset()
             num_episode += 1
 
