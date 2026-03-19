@@ -290,7 +290,7 @@
             "reset_move_speed": 0.05,
             "grasp_detection_joint_indices": [4, 7],
             "grasp_detection_threshold_deg": 10.0,
-            "grasp_pos": [0.4, -0.159, 0.37],
+            "grasp_pos": [0.4, -0.163, 0.37],
             "grasp_orientation": [-0.225, 0.652, 0.669, 0.277],
             "grasp_finger_positions": [0.0, 50.0, 0.0, 0.0, 62.0, 0.0, 0.0, 67.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             "grasp_lift_z": 0.42
