@@ -377,6 +377,8 @@ def add_actor_information_and_train(
     online_iterator = None
     offline_iterator = None
 
+    imitation_learning_weight = cfg.policy.imitation_learning_weight if cfg.policy.use_imitation_learning else 0.0
+
     # NOTE: THIS IS THE MAIN LOOP OF THE LEARNER
     while True:
         # Exit the training loop if shutdown is requested
@@ -544,7 +546,8 @@ def add_actor_information_and_train(
                 actions,
                 observation_features,
             )
-            loss_imitation = imitation_learning_loss * cfg.policy.imitation_learning_weight
+            imitation_learning_weight = max(0, imitation_learning_weight - cfg.policy.imitation_learning_weight / cfg.policy.imitation_learning_weight_optimization_steps)
+            loss_imitation = imitation_learning_loss * imitation_learning_weight
             optimizers["actor"].zero_grad()
             loss_imitation.backward()
             imitation_grad_norm = torch.nn.utils.clip_grad_norm_(
@@ -637,6 +640,7 @@ def add_actor_information_and_train(
                 {
                     "Optimization frequency loop [Hz]": frequency_for_one_optimization_step,
                     "Optimization step": optimization_step,
+                    "imitation_learning_weight": imitation_learning_weight,
                 },
                 mode="train",
                 custom_step_key="Optimization step",
