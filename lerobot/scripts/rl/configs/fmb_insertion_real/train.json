@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "fmb_insertion_real/rl_combined_0",
+        "repo_id": "fmb_insertion_real_combined_1/rl_combined",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -299,7 +299,7 @@
     "disable_hand": true,
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "fmb_insertion_real/rl_combined_0",
+    "repo_id": "fmb_insertion_real_combined_1/rl_combined",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
