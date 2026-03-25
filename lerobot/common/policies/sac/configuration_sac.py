@@ -204,7 +204,7 @@ class SACConfig(PreTrainedConfig):
     concurrency: ConcurrencyConfig = field(default_factory=ConcurrencyConfig)
 
     use_imitation_learning: bool = True
-    imitation_learning_weight: float = 0.3
+    imitation_learning_weight: float = 0.0
     imitation_learning_weight_optimization_steps: int = 3000
 
     # Optimizations
