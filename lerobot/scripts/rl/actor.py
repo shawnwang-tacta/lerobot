@@ -427,7 +427,7 @@ def act_with_policy(
                 # reset_provider.reset_to_start_pose()
                 reset_provider.reset(
                     info["task_state.task_id"],
-                    control_dt=1.0/cfg.env.fps,
+                    control_dt=1.0/cfg.env.fps/cfg.env.step_repeat,
                 )
 
             obs, info = online_env.reset()
