@@ -15,7 +15,7 @@
         "disable_artifact": true
     },
     "dataset": {
-        "repo_id": "fmb_insertion_real_combined_1/rl_combined",
+        "repo_id": "fmb_insertion_real_combined_2/rl_combined",
         "use_imagenet_stats": false
     },
     "policy": {
@@ -258,7 +258,7 @@
         "mask_action_as_zero": [],
         "reset_hand_on_start": false,
         "safety_bounds": [[0.38, -0.17, 0.3], [0.42, -0.13, 0.42]],
-        "reset_finger_positions": [0.0, 50.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "reset_finger_positions": [0.0, 45.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
         "task_type": "FMB_INSERT",
         "robot_name": "flexiv",
         "recorder": {
@@ -290,21 +290,21 @@
             "reset_move_speed": 0.05,
             "grasp_detection_joint_indices": [4, 7],
             "grasp_detection_threshold_deg": 10.0,
-            "grasp_pos": [0.4, -0.163, 0.37],
+            "grasp_pos": [0.4, -0.156, 0.37],
             "grasp_orientation": [-0.225, 0.652, 0.669, 0.277],
-            "grasp_finger_positions": [0.0, 50.0, 0.0, 0.0, 62.0, 0.0, 0.0, 67.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            "grasp_finger_positions": [0.0, 45.0, 0.0, 0.0, 62.0, 0.0, 0.0, 69.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             "grasp_lift_z": 0.42
         }
     },
     "disable_hand": true,
     "name": "franka_sim",
     "mode": null,
-    "repo_id": "fmb_insertion_real_combined_1/rl_combined",
+    "repo_id": "fmb_insertion_real_combined_2/rl_combined",
     "dataset_root": null,
     "task": "TactaArmHandManip-v0",
     "num_episodes": 30,
     "episode": 0,
-    "pretrained_policy_name_or_path": null,
+    "pretrained_policy_name_or_path": "/home/swang/Code/lerobot/outputs/train/2026-03-19/15-55-10_default/checkpoints/0004000/pretrained_model",
     "device": "cuda",
     "push_to_hub": false,
     "fps": 2,
