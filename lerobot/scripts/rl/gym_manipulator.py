@@ -2247,8 +2247,12 @@ def evaluate(env, policy, cfg: HILEnvConfig):
     if isinstance(cfg, HILEnvConfig) and cfg.tacta_control_loop_config is not None:
         reset_provider = get_reset_action_provider(env, cfg.tacta_control_loop_config.reset_action_provider_config)
 
+    obs, info = env.reset()
     if reset_provider is not None:
-        reset_provider.reset_to_start_pose()
+        reset_provider.reset(
+            info["task_state.task_id"],
+            control_dt=1.0/cfg.fps/cfg.step_repeat,
+        )
 
     episode_index = 0
     while episode_index < cfg.num_episodes:
@@ -2286,8 +2290,8 @@ def evaluate(env, policy, cfg: HILEnvConfig):
 
             # Step environment
             # TODO: remove after increasing lighting robustness
-            action[:, :] *= 1.2
-            action[:, 2] -= 0.5
+            # action[:, :] *= 1.2
+            # action[:, 2] -= 0.5
             obs, reward, terminated, truncated, info = env.step(action)
 
             # Check if episode needs to be rerecorded
@@ -2336,7 +2340,10 @@ def evaluate(env, policy, cfg: HILEnvConfig):
         print(f"{np.mean(evaluation_metrics['mean_tau_fingers']):.2f} (+/- {np.std(evaluation_metrics['mean_tau_fingers']):.2f})")
 
         if reset_provider is not None:
-            reset_provider.reset_to_start_pose()
+            reset_provider.reset(
+                info["task_state.task_id"],
+                control_dt=1.0/cfg.fps/cfg.step_repeat,
+            )
 
 def replay_episode(env, cfg):
     """
