@@ -2269,7 +2269,7 @@ def evaluate(env, policy, cfg: HILEnvConfig):
         # Run episode steps
         episode_length = 0
         tau_fingers = []
-        while time.perf_counter() - start_episode_t < cfg.wrapper.control_time_s:
+        while True:
             start_loop_t = time.perf_counter()
             episode_length += 1
 
@@ -2280,7 +2280,10 @@ def evaluate(env, policy, cfg: HILEnvConfig):
             else:
                 # Get action from policy if available
                 if cfg.pretrained_policy_name_or_path is not None:
+                    start_policy_t = time.perf_counter()
                     action = policy.select_action(obs)
+                    end_policy_t = time.perf_counter()
+                    print(f"Policy action selection time: {end_policy_t - start_policy_t:.4f} s")
 
                 if use_action_mapper:
                     action = map_action(action, action_mapper).to(cfg.device)
@@ -2344,6 +2347,7 @@ def evaluate(env, policy, cfg: HILEnvConfig):
                 info["task_state.task_id"],
                 control_dt=1.0/cfg.fps/cfg.step_repeat,
             )
+        policy.reset()
 
 def replay_episode(env, cfg):
     """
@@ -2410,8 +2414,24 @@ def main(cfg: EnvConfig):
         policy = None
         if cfg.pretrained_policy_name_or_path is not None:
             from lerobot.common.policies.sac.modeling_sac import SACPolicy
+            from lerobot.common.policies.diffusion.modeling_diffusion import DiffusionPolicy
+            from lerobot.common.policies.act.modeling_act import ACTPolicy
 
-            policy = SACPolicy.from_pretrained(cfg.pretrained_policy_name_or_path)
+            try:
+                policy = SACPolicy.from_pretrained(cfg.pretrained_policy_name_or_path)
+            except Exception as e:
+                logging.warning(f"Failed to load SACPolicy")
+
+            try:
+                policy = DiffusionPolicy.from_pretrained(cfg.pretrained_policy_name_or_path)
+            except Exception as e:
+                logging.warning(f"Failed to load DiffusionPolicy")
+
+            try:
+                policy = ACTPolicy.from_pretrained(cfg.pretrained_policy_name_or_path)
+            except Exception as e:
+                logging.warning(f"Failed to load ACTPolicy")
+
             policy.to(cfg.device)
             policy.eval()
 
