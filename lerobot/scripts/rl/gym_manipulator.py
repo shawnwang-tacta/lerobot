@@ -2280,10 +2280,7 @@ def evaluate(env, policy, cfg: HILEnvConfig):
             else:
                 # Get action from policy if available
                 if cfg.pretrained_policy_name_or_path is not None:
-                    start_policy_t = time.perf_counter()
                     action = policy.select_action(obs)
-                    end_policy_t = time.perf_counter()
-                    print(f"Policy action selection time: {end_policy_t - start_policy_t:.4f} s")
 
                 if use_action_mapper:
                     action = map_action(action, action_mapper).to(cfg.device)
